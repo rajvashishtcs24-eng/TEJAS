@@ -1,5 +1,8 @@
 import sys
-sys.path.insert(0, "/home/claude/tejas/data_pipeline")
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(PROJECT_ROOT / "data_pipeline"))
 
 import json
 import numpy as np
@@ -49,7 +52,7 @@ for i, cond in enumerate(conditions):
     ax2.grid(alpha=0.25)
 
 plt.tight_layout()
-plt.savefig("/home/claude/tejas/qa_plots/phase2_raw_vs_processed.png", dpi=130)
+plt.savefig(PROJECT_ROOT / "qa_plots" / "phase2_raw_vs_processed.png", dpi=130)
 plt.close(fig)
 print("Saved phase2_raw_vs_processed.png")
 
@@ -79,7 +82,7 @@ for i, cond in enumerate(conditions):
     ax2.grid(alpha=0.25)
 
 plt.tight_layout()
-plt.savefig("/home/claude/tejas/qa_plots/phase2_shape_vs_magnitude.png", dpi=130)
+plt.savefig(PROJECT_ROOT / "qa_plots" / "phase2_shape_vs_magnitude.png", dpi=130)
 plt.close(fig)
 print("Saved phase2_shape_vs_magnitude.png")
 
@@ -95,6 +98,6 @@ for ax, idx in zip(axes.flat, sample_idxs):
     ax.set_title(f"{row['condition_label']} | {row['well_id']}", fontsize=9)
     ax.grid(alpha=0.25)
 plt.tight_layout()
-plt.savefig("/home/claude/tejas/qa_plots/phase2_random_samples.png", dpi=130)
+plt.savefig(PROJECT_ROOT / "qa_plots" / "phase2_random_samples.png", dpi=130)
 plt.close(fig)
 print("Saved phase2_random_samples.png")

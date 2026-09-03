@@ -1,5 +1,9 @@
 import sys
-sys.path.insert(0, "/home/claude/tejas/data_gen")
+from pathlib import Path
+
+_SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = _SCRIPT_DIR.parent
+sys.path.insert(0, str(_SCRIPT_DIR))
 
 import numpy as np
 import matplotlib
@@ -46,6 +50,6 @@ for i, cond in enumerate(conditions):
     ax.grid(alpha=0.25)
 
 plt.tight_layout()
-out_path = "/home/claude/tejas/qa_plots/condition_shapes_qa.png"
+out_path = PROJECT_ROOT / "qa_plots" / "condition_shapes_qa.png"
 plt.savefig(out_path, dpi=130)
 print(f"Saved QA plot to {out_path}")

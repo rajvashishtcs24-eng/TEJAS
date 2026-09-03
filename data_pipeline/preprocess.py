@@ -23,11 +23,14 @@ load as a single-valued function of position across the full cycle.
 """
 
 import json
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
-RAW_CSV = "/home/claude/tejas/data/synthetic/dynacards_synthetic_v1.csv"
-OUT_DIR = "/home/claude/tejas/data/processed"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+RAW_CSV = PROJECT_ROOT / "data" / "raw" / "dynacards_synthetic_v1.csv"
+OUT_DIR = PROJECT_ROOT / "data" / "processed"
 N_HALF = 100  # points per branch -> 200 total per card
 
 EXPECTED_DATA_SOURCE = "synthetic_physics_v1"
@@ -37,7 +40,7 @@ EXPECTED_DATA_SOURCE = "synthetic_physics_v1"
 # Loading & validation
 # --------------------------------------------------------------------------
 
-def load_raw(csv_path: str) -> pd.DataFrame:
+def load_raw(csv_path) -> pd.DataFrame:
     df = pd.read_csv(csv_path)
     return df
 
@@ -219,9 +222,9 @@ def run_pipeline():
     assert processed_shape.shape == (n_valid, n_points_total, 2)
     assert processed_magnitude.shape == (n_valid, n_points_total, 2)
 
-    np.save(f"{OUT_DIR}/processed_cards_shape.npy", processed_shape)
-    np.save(f"{OUT_DIR}/processed_cards_magnitude.npy", processed_magnitude)
-    meta.to_csv(f"{OUT_DIR}/processed_metadata.csv", index=False)
+    np.save(OUT_DIR / "processed_cards_shape.npy", processed_shape)
+    np.save(OUT_DIR / "processed_cards_magnitude.npy", processed_magnitude)
+    meta.to_csv(OUT_DIR / "processed_metadata.csv", index=False)
 
     # --- well-level split reporting (NOT silently created) ---
     wells_summary = meta.groupby("well_id").agg(
@@ -238,7 +241,7 @@ def run_pipeline():
     train_wells = set(unique_wells[:n_train_wells])
     val_wells = set(unique_wells[n_train_wells:])
     meta["split"] = meta["well_id"].apply(lambda w: "train" if w in train_wells else "val")
-    meta.to_csv(f"{OUT_DIR}/processed_metadata.csv", index=False)  # rewrite with split col
+    meta.to_csv(OUT_DIR / "processed_metadata.csv", index=False)  # rewrite with split col
 
     split_cond_dist = pd.crosstab(meta["split"], meta["condition_label"])
     split_well_counts = meta.groupby("split")["well_id"].nunique()

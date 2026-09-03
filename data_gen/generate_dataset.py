@@ -22,6 +22,7 @@ Notes on scope (Phase 1 only):
 import json
 import uuid
 from datetime import datetime, timedelta
+from pathlib import Path
 
 import numpy as np
 import pandas as pd
@@ -29,6 +30,7 @@ import pandas as pd
 from srp_physics import WellConfig
 from conditions import GENERATORS
 
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 RNG = np.random.default_rng(42)
 
 CONDITION_WEIGHTS = {
@@ -174,7 +176,7 @@ def generate_dataset(n_cards: int = 400, n_points: int = 200, seed: int = 42) ->
 
 if __name__ == "__main__":
     df = generate_dataset(n_cards=400, n_points=200, seed=42)
-    out_path = "/home/claude/tejas/data/synthetic/dynacards_synthetic_v1.csv"
+    out_path = PROJECT_ROOT / "data" / "raw" / "dynacards_synthetic_v1.csv"
     df.to_csv(out_path, index=False)
     print(f"Wrote {len(df)} synthetic cards to {out_path}")
     print(df["condition_label"].value_counts())

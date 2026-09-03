@@ -36,11 +36,14 @@ FEATURE DESIGN NOTES (see PHASE4_README.md for full documentation):
 """
 
 import json
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
-PROC_DIR = "/home/claude/tejas/data/processed"
-OUT_DIR = "/home/claude/tejas/data/features"
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+PROC_DIR = PROJECT_ROOT / "data" / "processed"
+OUT_DIR = PROJECT_ROOT / "data" / "features"
 
 CONTEXT_COLS = ["SPM", "temperature", "viscosity", "fluid_level", "pump_depth",
                 "production_rate", "stroke_length"]
@@ -136,9 +139,9 @@ def extract_features_for_card(row, mag_card: np.ndarray, shape_card: np.ndarray)
 
 
 def run_extraction():
-    shape_arr = np.load(f"{PROC_DIR}/processed_cards_shape.npy")
-    mag_arr = np.load(f"{PROC_DIR}/processed_cards_magnitude.npy")
-    meta = pd.read_csv(f"{PROC_DIR}/processed_metadata.csv")
+    shape_arr = np.load(PROC_DIR / "processed_cards_shape.npy")
+    mag_arr = np.load(PROC_DIR / "processed_cards_magnitude.npy")
+    meta = pd.read_csv(PROC_DIR / "processed_metadata.csv")
 
     assert len(meta) == shape_arr.shape[0] == mag_arr.shape[0], "row-count mismatch between metadata and arrays"
 
@@ -165,7 +168,7 @@ def run_extraction():
     ]
     feat_df = feat_df[ordered_cols]
 
-    feat_df.to_csv(f"{OUT_DIR}/dynacard_features.csv", index=False)
+    feat_df.to_csv(OUT_DIR / "dynacard_features.csv", index=False)
     return feat_df
 
 
@@ -183,5 +186,5 @@ FEATURE_COLS = [
 if __name__ == "__main__":
     df = run_extraction()
     print(f"Extracted {len(FEATURE_COLS)} features for {len(df)} cards")
-    print(f"Wrote {OUT_DIR}/dynacard_features.csv")
+    print(f"Wrote {OUT_DIR / 'dynacard_features.csv'}")
     print(df["condition_label"].value_counts())
