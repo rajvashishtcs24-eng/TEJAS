@@ -1,0 +1,149 @@
+======================================================================
+PHASE 4 FEATURE QA REPORT
+======================================================================
+
+Total cards: 400
+Total features (excluding identifiers/context passthrough labels): 34
+
+Feature list:
+  - PPRL_z
+  - MPRL_z
+  - load_range_z
+  - mean_load_z
+  - std_load_z
+  - PPRL_raw_lbf
+  - MPRL_raw_lbf
+  - load_range_raw_lbf
+  - mean_load_raw_lbf
+  - std_load_raw_lbf
+  - card_work_raw_lbf_in
+  - card_area_shape_norm
+  - mean_up_z
+  - std_up_z
+  - min_up_z
+  - max_up_z
+  - mean_down_z
+  - std_down_z
+  - min_down_z
+  - max_down_z
+  - mean_slope_up_z
+  - max_abs_slope_up_z
+  - mean_slope_down_z
+  - max_abs_slope_down_z
+  - position_of_peak_load
+  - position_of_min_load
+  - up_down_load_ratio_raw
+  - SPM
+  - temperature
+  - viscosity
+  - fluid_level
+  - pump_depth
+  - production_rate
+  - stroke_length
+
+----------------------------------------------------------------------
+NaN / Infinite check
+----------------------------------------------------------------------
+Features with NaN values: none
+Features with Inf values: none
+
+----------------------------------------------------------------------
+Constant / near-constant feature check
+----------------------------------------------------------------------
+Fully constant features: none
+
+----------------------------------------------------------------------
+Duplicate feature columns
+----------------------------------------------------------------------
+Exact duplicate columns: [('MPRL_z', 'min_down_z')]
+
+----------------------------------------------------------------------
+Range sanity checks
+----------------------------------------------------------------------
+  PPRL_raw_lbf > MPRL_raw_lbf (always true): OK
+  load_range_raw_lbf > 0: OK
+  load_range_z > 0: OK
+  card_work_raw_lbf_in > 0: OK
+  card_area_shape_norm >= 0: OK
+  position_of_peak_load in [0,1]: OK
+  position_of_min_load in [0,1]: OK
+  stroke_length in [50,200] in: OK
+  SPM in [1,15]: OK
+
+up_down_load_ratio_raw range: [1.16, 2.29]
+up_down_load_ratio_raw extreme outliers (<0.5 or >5): 0 cards
+
+----------------------------------------------------------------------
+Strong feature correlations (|r| > 0.9) - reported only, NOT removed
+----------------------------------------------------------------------
+  MPRL_z  <->  min_down_z   r=1.0
+  std_down_z  <->  mean_slope_down_z   r=-0.985
+  min_up_z  <->  mean_slope_up_z   r=0.937
+  min_up_z  <->  max_abs_slope_up_z   r=-0.929
+  MPRL_z  <->  std_down_z   r=-0.921
+  std_down_z  <->  min_down_z   r=-0.921
+  mean_load_z  <->  mean_down_z   r=0.919
+  std_down_z  <->  max_abs_slope_down_z   r=0.913
+  card_area_shape_norm  <->  std_up_z   r=-0.905
+
+----------------------------------------------------------------------
+Basic statistics by condition (mean, selected headline features)
+----------------------------------------------------------------------
+                  PPRL_raw_lbf  MPRL_raw_lbf  load_range_raw_lbf  card_work_raw_lbf_in  max_abs_slope_down_z  position_of_peak_load  card_area_shape_norm
+condition_label                                                                                                                                          
+Fluid Pound           12662.36       4995.60             7666.76             580899.85                 94.60                   0.02                  0.61
+Gas Interference      13199.83       8491.62             4708.22             465140.84                  2.73                   0.06                  0.78
+Normal                13856.32       7994.52             5861.80             553749.10                  2.77                   0.01                  0.75
+Rod Floating          16597.57       7001.39             9596.18             561516.14                105.65                   0.05                  0.49
+
+----------------------------------------------------------------------
+Separability check: one-way ANOVA F-statistic per feature across the
+4 conditions (descriptive statistic only - NOT a trained classifier)
+----------------------------------------------------------------------
+               feature  F_statistic       p_value
+           mean_load_z   953.221059 1.034260e-180
+                MPRL_z   509.899837 1.402877e-135
+            min_down_z   509.899837 1.402877e-135
+           mean_down_z   390.700171 6.286192e-118
+  max_abs_slope_down_z   366.000347 9.063509e-114
+              max_up_z   356.073582 4.865065e-112
+             viscosity   289.274205  2.139306e-99
+            std_down_z   273.281563  4.511742e-96
+             mean_up_z   271.322938  1.176022e-95
+            max_down_z   241.685481  4.216788e-89
+     mean_slope_down_z   160.994341  3.220970e-68
+                   SPM   144.748336  2.527374e-63
+                PPRL_z   139.964785  7.916193e-62
+            std_load_z   133.623101  8.365507e-60
+          load_range_z   113.884306  3.504875e-53
+  position_of_min_load   106.787935  1.136040e-50
+    load_range_raw_lbf    87.769088  1.472918e-43
+  card_area_shape_norm    83.343239  8.144213e-42
+          MPRL_raw_lbf    71.057355  8.724644e-37
+              std_up_z    60.347762  3.772667e-32
+           fluid_level    58.048985  4.025244e-31
+           temperature    46.257935  1.195970e-25
+              min_up_z    33.745449  1.924873e-19
+ position_of_peak_load    32.054817  1.436501e-18
+          PPRL_raw_lbf    26.355466  1.458433e-15
+       mean_slope_up_z    24.070493  2.498480e-14
+      std_load_raw_lbf    19.718245  6.220210e-12
+up_down_load_ratio_raw    17.995889  5.739522e-11
+    max_abs_slope_up_z    15.186426  2.256406e-09
+     mean_load_raw_lbf     8.046270  3.236322e-05
+  card_work_raw_lbf_in     3.137297  2.540053e-02
+         stroke_length     1.086689  3.545474e-01
+       production_rate     0.309394  8.186022e-01
+            pump_depth     0.175063  9.132536e-01
+
+Top 8 most separating features by F-statistic:
+  mean_load_z: F=953.2, p=1.03e-180
+  MPRL_z: F=509.9, p=1.40e-135
+  min_down_z: F=509.9, p=1.40e-135
+  mean_down_z: F=390.7, p=6.29e-118
+  max_abs_slope_down_z: F=366.0, p=9.06e-114
+  max_up_z: F=356.1, p=4.87e-112
+  viscosity: F=289.3, p=2.14e-99
+  std_down_z: F=273.3, p=4.51e-96
+
+30 / 34 features show statistically significant (p<0.01) differences across conditions.
