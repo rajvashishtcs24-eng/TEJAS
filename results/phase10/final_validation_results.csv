@@ -1,0 +1,10 @@
+test_type,case_id,condition,spm,temp_f,visc_cp,fluid_level_ft,predicted_condition,confidence_pct,current_risk,current_severity,current_prod_bpd,current_power_kw,current_sec_kwh_bbl,rec_scenario,rec_risk,rec_severity,delta_prod_bpd,delta_power_kw,delta_risk,validation_status
+Benchmark,WELL-019,Rod Floating,6.61,130.7,1055.6,2260.2,Rod Floating,100.0,65.2,High,181.3,5.07,0.67,Thermal_+45F,32.9,Medium,45.9,-0.34,-26.3,PASSED
+Benchmark,WELL-005,Fluid Pound,3.69,144.0,329.3,2613.3,Fluid Pound,99.9,52.5,Medium,210.4,3.44,0.39,SPM_6.0,17.8,Low,131.7,3.47,0.0,PASSED
+Benchmark,WELL-007,Gas Interference,5.81,133.8,387.6,3544.8,Gas Interference,82.5,30.6,Medium,214.2,8.0,0.9,GasSep_SPM_5.0,10.7,Low,100.9,-1.53,-52.8,PASSED
+Benchmark,WELL-003,Normal,4.37,132.5,481.9,3454.0,Normal,99.0,4.0,Low,196.0,3.85,0.47,CoOpt_T+35F_SPM_6.0,12.5,Low,81.8,1.95,-2.5,PASSED
+Edge_Case,EDGE_EXTREME_VISCOSITY,Rod Floating,7.0,110.0,2500.0,2260.2,Rod Floating,100.0,71.2,High,164.4,6.31,0.92,CoOpt_T+35F_SPM_5.0,44.0,Medium,-17.4,-3.04,-21.4,PASSED
+Edge_Case,EDGE_LOW_FLUID_LEVEL,Fluid Pound,8.0,144.0,329.3,400.0,Fluid Pound,99.9,74.2,High,95.9,7.08,1.77,POC_SPM_6.0_FL_3000,16.3,Low,270.7,0.39,-83.7,PASSED
+Edge_Case,EDGE_HIGH_GAS_FRACTION,Gas Interference,5.81,133.8,387.6,1500.0,Gas Interference,82.5,30.6,Medium,52.2,5.06,2.33,GasSep_POC_SPM_4.5_FL_3000,10.0,Low,231.4,-0.05,-90.0,PASSED
+Edge_Case,EDGE_HIGH_SPM_OVERSPEED,Normal,11.5,132.5,481.9,3454.0,Normal,99.0,9.1,Low,464.4,18.14,0.94,CoOpt_T+35F_SPM_6.0,12.5,Low,-186.6,-12.34,-52.4,PASSED
+Edge_Case,EDGE_NOMINAL_BASELINE,Normal,5.0,150.0,320.0,3600.0,Normal,99.0,4.0,Low,230.7,4.68,0.49,SPM_5.5,10.4,Low,23.1,0.65,0.0,PASSED

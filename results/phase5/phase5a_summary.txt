@@ -1,0 +1,18 @@
+TEJAS Phase 5A — Feature-Based ML Classification Summary
+======================================================================
+
+NOTE: HistGradientBoostingClassifier is scikit-learn's native
+gradient-boosting implementation. It is NOT XGBoost.
+
+Data: C:\Users\rajva\Downloads\TEJAS\data\features\dynacard_features.csv
+Features: 34 (34 total)
+Target: condition_label (4 classes)
+Train: 319 cards, Val: 81 cards
+Split: well-level (existing split column)
+
+Metric                           Random Forest             HGB
+------------------------------------------------------------
+Train accuracy                          1.0000          1.0000
+Val accuracy                            0.8642          0.8889
+Val balanced accuracy                   0.8504          0.8720
+Val macro F1                            0.8645          0.8890

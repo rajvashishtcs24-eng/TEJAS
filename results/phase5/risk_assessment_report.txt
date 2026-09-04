@@ -1,0 +1,59 @@
+TEJAS Phase 6 — Risk & Engineering Assessment Report
+======================================================================
+
+1. SUMMARY OF SEVERITY TIERS BY CONDITION (400 CARDS)
+severity          Critical  High  Low  Medium  All
+actual_condition                                  
+Fluid Pound             51    37    0       0   88
+Gas Interference         0     0   25      40   65
+Normal                   0     0  158       0  158
+Rod Floating            39    49    0       1   89
+All                     90    86  183      41  400
+
+2. RISK SCORE STATISTICS BY CONDITION
+                   mean   min   max    std
+actual_condition                          
+Fluid Pound       80.66  55.0  96.0  10.41
+Gas Interference  27.90   6.4  45.0  10.30
+Normal             4.75   3.7   6.6   0.78
+Rod Floating      77.00  54.5  94.7   9.11
+
+3. VALIDATION SET SEVERITY DISTRIBUTION (81 CARDS)
+severity          Critical  High  Low  Medium  All
+actual_condition                                  
+Fluid Pound              7    12    0       0   19
+Gas Interference         0     0   10       4   14
+Normal                   0     0   29       0   29
+Rod Floating             1    17    0       1   19
+All                      8    29   39       5   81
+
+4. REPRESENTATIVE EXAMPLE ASSESSMENTS BY CONDITION
+----------------------------------------------------------------------
+
+[CONDITION: NORMAL] - Card 33b108c1 (WELL-003)
+  Predicted:      Normal (confidence: 99.01%)
+  Risk Score:     4.0 / 100  (Severity: Low)
+  Probabilities:  Normal=0.99, RF=0.01, FP=0.00, GI=0.00
+  Explanation:    Sucker-rod card exhibits uniform load profile and normal full-stroke work envelope. Operating within nominal mechanical baseline.
+  Recommendation: Maintain baseline pumping parameters. Continue regular SCADA monitoring and scheduled lubrication.
+
+[CONDITION: ROD FLOATING] - Card 491f0416 (WELL-019)
+  Predicted:      Rod Floating (confidence: 99.99%)
+  Risk Score:     72.0 / 100  (Severity: High)
+  Probabilities:  Normal=0.00, RF=1.00, FP=0.00, GI=0.00
+  Explanation:    Severe downstroke rod deceleration diagnosed. Downstroke velocity lag caused by heavy crude drag (1056 cP) and pumping speed (6.6 SPM) creates compressive rod stress and sharp impact on plunger re-engagement. Root factors: Elevated viscosity (1055.6 cP) increases rod downstroke fluid drag; Severe mechanical impact spike detected on downstroke (slope_z=62.3).
+  Recommendation: IMMEDIATE ACTION: Reduce VFD stroke speed from 6.6 SPM to 5.0 SPM to restore gravity downstroke tracking. Schedule CSS (Cyclic Steam Stimulation) / diluent injection to reduce crude viscosity. Inspect rod string for compressive buckling.
+
+[CONDITION: FLUID POUND] - Card a1898515 (WELL-016)
+  Predicted:      Fluid Pound (confidence: 99.93%)
+  Risk Score:     66.1 / 100  (Severity: High)
+  Probabilities:  Normal=0.00, RF=0.00, FP=1.00, GI=0.00
+  Explanation:    Incomplete pump barrel fillage diagnosed due to reservoir inflow deficit (2613 ft fluid level). Plunger free-falls through vapor pocket before abruptly impacting fluid surface on downstroke, transmitting shock waves to polished rod and gearbox. Root factors: Low pump submergence ratio (49.3%); Sharp fluid-surface impact shock detected (slope_z=53.8); Depressed minimum load (4737 lbf) flags plunger free-fall inside barrel.
+  Recommendation: IMMEDIATE ACTION: Throttle pump speed from 3.7 SPM to 2.6 SPM or activate automatic Pump-Off Controller (POC) with intermittent timer (duty cycling) to permit annular fluid recovery. Inspect valves and rod guides.
+
+[CONDITION: GAS INTERFERENCE] - Card 40eff1f0 (WELL-007)
+  Predicted:      Gas Interference (confidence: 82.55%)
+  Risk Score:     37.3 / 100  (Severity: Medium)
+  Probabilities:  Normal=0.17, RF=0.00, FP=0.00, GI=0.83
+  Explanation:    Compressible free gas inside the pump barrel is delaying traveling valve opening on downstroke. Volumetric lifting capacity is degraded due to cyclic gas compression. Root factors: Suppressed production rate (27.5 bpd) from gas lock/slippage.
+  Recommendation: ADVISORY: Monitor casinghead gas backpressure. Optimize stroke length vs SPM to maximize compression ratio in barrel.

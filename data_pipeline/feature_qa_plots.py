@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 import matplotlib
@@ -5,9 +7,13 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv("/home/claude/tejas/data/features/dynacard_features.csv")
-anova = pd.read_csv("/home/claude/tejas/data/features/feature_separability_anova.csv")
-corr = pd.read_csv("/home/claude/tejas/data/features/feature_correlation_matrix.csv", index_col=0)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+FEATURES_DIR = PROJECT_ROOT / "data" / "features"
+QA_PLOTS_DIR = PROJECT_ROOT / "qa_plots"
+
+df = pd.read_csv(FEATURES_DIR / "dynacard_features.csv")
+anova = pd.read_csv(FEATURES_DIR / "feature_separability_anova.csv")
+corr = pd.read_csv(FEATURES_DIR / "feature_correlation_matrix.csv", index_col=0)
 
 conditions = ["Normal", "Rod Floating", "Fluid Pound", "Gas Interference"]
 palette = {"Normal": "#2E7D32", "Rod Floating": "#C0392B", "Fluid Pound": "#D97B29", "Gas Interference": "#6A4FA0"}
@@ -27,7 +33,7 @@ for ax, feat in zip(axes.flat, top_feats):
     ax.tick_params(axis="x", labelsize=8)
     ax.grid(alpha=0.25, axis="y")
 plt.tight_layout()
-plt.savefig("/home/claude/tejas/qa_plots/phase4_top_features_boxplots.png", dpi=130)
+plt.savefig(QA_PLOTS_DIR / "phase4_top_features_boxplots.png", dpi=130)
 plt.close(fig)
 print("Saved phase4_top_features_boxplots.png")
 
@@ -41,7 +47,7 @@ ax.set_title("Feature correlation matrix (report only - nothing removed)", fonts
 plt.xticks(fontsize=7, rotation=90)
 plt.yticks(fontsize=7)
 plt.tight_layout()
-plt.savefig("/home/claude/tejas/qa_plots/phase4_correlation_heatmap.png", dpi=130)
+plt.savefig(QA_PLOTS_DIR / "phase4_correlation_heatmap.png", dpi=130)
 plt.close(fig)
 print("Saved phase4_correlation_heatmap.png")
 
@@ -70,6 +76,6 @@ ax2.legend(fontsize=8)
 ax2.grid(alpha=0.25)
 
 plt.tight_layout()
-plt.savefig("/home/claude/tejas/qa_plots/phase4_scatter_separability.png", dpi=130)
+plt.savefig(QA_PLOTS_DIR / "phase4_scatter_separability.png", dpi=130)
 plt.close(fig)
 print("Saved phase4_scatter_separability.png")

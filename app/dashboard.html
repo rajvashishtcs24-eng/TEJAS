@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEJAS — Thermal-Enabled Well Optimization & Decision Support</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --bg-dark: #0f172a;
+      --bg-card: #1e293b;
+      --bg-card-alt: #334155;
+      --border: #475569;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-blue: #38bdf8;
+      --accent-green: #22c55e;
+      --accent-red: #ef4444;
+      --accent-orange: #f97316;
+      --accent-purple: #a855f7;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+    body { background-color: var(--bg-dark); color: var(--text-main); line-height: 1.5; padding: 20px; }
+
+    .header {
+      display: flex; justify-content: space-between; align-items: center;
+      background: var(--bg-card); padding: 16px 24px; border-radius: 12px;
+      border: 1px solid var(--border); margin-bottom: 20px;
+    }
+    .header h1 { font-size: 1.4rem; font-weight: 700; color: var(--accent-blue); letter-spacing: 0.5px; }
+    .header .subtitle { font-size: 0.85rem; color: var(--text-muted); }
+    .controls { display: flex; gap: 12px; align-items: center; }
+    select, button {
+      background: var(--bg-card-alt); color: var(--text-main); border: 1px solid var(--border);
+      padding: 8px 14px; border-radius: 6px; font-size: 0.9rem; cursor: pointer; outline: none;
+    }
+    button.btn-primary { background: #0284c7; border-color: #0369a1; font-weight: 600; }
+    button.btn-primary:hover { background: #0369a1; }
+
+    .status-ribbon {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px;
+      margin-bottom: 20px;
+    }
+    .status-card {
+      background: var(--bg-card); padding: 14px; border-radius: 8px; border: 1px solid var(--border);
+      text-align: center;
+    }
+    .status-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 4px; }
+    .status-value { font-size: 1.3rem; font-weight: 700; }
+
+    .badge {
+      display: inline-block; padding: 4px 10px; border-radius: 9999px; font-size: 0.85rem; font-weight: 600;
+    }
+    .badge-Normal { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
+    .badge-RodFloating { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+    .badge-FluidPound { background: rgba(249, 115, 22, 0.2); color: #fb923c; border: 1px solid #f97316; }
+    .badge-GasInterference { background: rgba(168, 85, 247, 0.2); color: #c084fc; border: 1px solid #a855f7; }
+
+    .badge-Low { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+    .badge-Medium { background: rgba(234, 179, 8, 0.2); color: #facc15; }
+    .badge-High { background: rgba(249, 115, 22, 0.2); color: #fb923c; }
+    .badge-Critical { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+    .grid-container {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    }
+    @media (max-width: 1024px) { .grid-container { grid-template-columns: 1fr; } }
+
+    .card-panel {
+      background: var(--bg-card); border-radius: 10px; border: 1px solid var(--border);
+      padding: 18px; margin-bottom: 20px;
+    }
+    .panel-title { font-size: 1rem; font-weight: 600; margin-bottom: 12px; color: var(--accent-blue); display: flex; justify-content: space-between; align-items: center; }
+
+    .chart-container { position: relative; width: 100%; height: 280px; }
+
+    .prob-bar { margin-bottom: 10px; }
+    .prob-header { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 3px; }
+    .bar-bg { background: var(--bg-card-alt); height: 8px; border-radius: 4px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 4px; transition: width 0.4s ease; }
+
+    .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+    .kpi-box { background: var(--bg-card-alt); padding: 10px; border-radius: 6px; text-align: center; }
+    .kpi-name { font-size: 0.75rem; color: var(--text-muted); }
+    .kpi-val { font-size: 1.1rem; font-weight: 700; margin-top: 2px; }
+
+    .opt-box {
+      background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 14px; border-radius: 8px; margin-bottom: 12px;
+    }
+    .opt-title { font-size: 0.95rem; font-weight: 700; color: var(--accent-blue); margin-bottom: 6px; }
+    .opt-deltas { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 8px; }
+    .delta-badge {
+      background: var(--bg-card); padding: 4px 8px; border-radius: 6px; font-size: 0.8rem; font-weight: 600;
+      border: 1px solid var(--border);
+    }
+    .delta-pos { color: var(--accent-green); }
+    .delta-neg { color: var(--accent-red); }
+    .delta-good { color: var(--accent-green); }
+
+    .rationale-text {
+      font-size: 0.85rem; color: var(--text-main); background: var(--bg-card-alt);
+      padding: 12px; border-radius: 6px; line-height: 1.4; border-left: 4px solid var(--accent-blue);
+      margin-top: 10px;
+    }
+
+    .disclaimer {
+      font-size: 0.75rem; color: var(--text-muted); text-align: center;
+      margin-top: 20px; padding: 10px; border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <div>
+      <h1>TEJAS — Thermal-Enabled Well Optimization</h1>
+      <div class="subtitle">Physics-Informed Digital Twin & Sucker-Rod Pump Decision Support</div>
+    </div>
+    <div class="controls">
+      <select id="sampleSelect" onchange="loadSelectedSample()">
+        <option value="">-- Load Sample Well Preset --</option>
+      </select>
+      <button class="btn-primary" onclick="runAnalysis()">Analyze Well</button>
+    </div>
+  </div>
+
+  <!-- Status Ribbon -->
+  <div class="status-ribbon">
+    <div class="status-card">
+      <div class="status-label">Well Identifier</div>
+      <div class="status-value" id="dispWellId">WELL-019</div>
+    </div>
+    <div class="status-card">
+      <div class="status-label">Diagnosed Condition</div>
+      <div class="status-value" id="dispCondition"><span class="badge badge-Normal">Analyzing...</span></div>
+    </div>
+    <div class="status-card">
+      <div class="status-label">CNN Confidence</div>
+      <div class="status-value" id="dispConfidence">--%</div>
+    </div>
+    <div class="status-card">
+      <div class="status-label">Composite Risk</div>
+      <div class="status-value" id="dispRisk">-- / 100</div>
+    </div>
+    <div class="status-card">
+      <div class="status-label">Severity Level</div>
+      <div class="status-value" id="dispSeverity"><span class="badge badge-Low">--</span></div>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="grid-container">
+    
+    <!-- Left Column: Card & Diagnosis -->
+    <div>
+      <!-- Dynamometer Card -->
+      <div class="card-panel">
+        <div class="panel-title">
+          <span>DYNAMOMETER CARD (200 PTS)</span>
+          <span style="font-size:0.8rem; color:var(--text-muted)">Normalized Position vs Load</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="dynaChart"></canvas>
+        </div>
+      </div>
+
+      <!-- Diagnostic Probabilities -->
+      <div class="card-panel">
+        <div class="panel-title">PHASE 5B CNN DIAGNOSTICS</div>
+        
+        <div class="prob-bar">
+          <div class="prob-header"><span>Normal Operation</span><span id="pNormVal">0.0%</span></div>
+          <div class="bar-bg"><div id="pNormBar" class="bar-fill" style="width: 0%; background: var(--accent-green);"></div></div>
+        </div>
+
+        <div class="prob-bar">
+          <div class="prob-header"><span>Rod Floating</span><span id="pRfVal">0.0%</span></div>
+          <div class="bar-bg"><div id="pRfBar" class="bar-fill" style="width: 0%; background: var(--accent-red);"></div></div>
+        </div>
+
+        <div class="prob-bar">
+          <div class="prob-header"><span>Fluid Pound</span><span id="pFpVal">0.0%</span></div>
+          <div class="bar-bg"><div id="pFpBar" class="bar-fill" style="width: 0%; background: var(--accent-orange);"></div></div>
+        </div>
+
+        <div class="prob-bar">
+          <div class="prob-header"><span>Gas Interference</span><span id="pGiVal">0.0%</span></div>
+          <div class="bar-bg"><div id="pGiBar" class="bar-fill" style="width: 0%; background: var(--accent-purple);"></div></div>
+        </div>
+      </div>
+
+      <!-- Engineering Assessment -->
+      <div class="card-panel">
+        <div class="panel-title">PHASE 6 ENGINEERING ASSESSMENT</div>
+        <div id="riskExplanation" style="font-size:0.85rem; color:var(--text-main); margin-bottom: 8px;">--</div>
+        <div id="contributingFactors" style="font-size:0.8rem; color:var(--text-muted);">--</div>
+      </div>
+    </div>
+
+    <!-- Right Column: Current State & Digital Twin Optimization -->
+    <div>
+      <!-- Current State KPIs -->
+      <div class="card-panel">
+        <div class="panel-title">CURRENT OPERATING STATE</div>
+        <div class="kpi-grid">
+          <div class="kpi-box"><div class="kpi-name">PUMP SPEED</div><div class="kpi-val" id="kpiSpm">-- SPM</div></div>
+          <div class="kpi-box"><div class="kpi-name">TEMPERATURE</div><div class="kpi-val" id="kpiTemp">-- °F</div></div>
+          <div class="kpi-box"><div class="kpi-name">VISCOSITY</div><div class="kpi-val" id="kpiVisc">-- cP</div></div>
+          <div class="kpi-box"><div class="kpi-name">FLUID LEVEL</div><div class="kpi-val" id="kpiFl">-- ft</div></div>
+          <div class="kpi-box"><div class="kpi-name">NET PRODUCTION</div><div class="kpi-val" id="kpiProd" style="color:var(--accent-green)">-- bpd</div></div>
+          <div class="kpi-box"><div class="kpi-name">POLISHED POWER</div><div class="kpi-val" id="kpiPower">-- kW</div></div>
+          <div class="kpi-box"><div class="kpi-name">SPECIFIC ENERGY</div><div class="kpi-val" id="kpiSec">-- kWh/bbl</div></div>
+          <div class="kpi-box"><div class="kpi-name">PEAK LOAD (PPRL)</div><div class="kpi-val" id="kpiPprl">-- lbf</div></div>
+          <div class="kpi-box"><div class="kpi-name">MIN LOAD (MPRL)</div><div class="kpi-val" id="kpiMprl">-- lbf</div></div>
+        </div>
+      </div>
+
+      <!-- Phase 8 Optimization Panel -->
+      <div class="card-panel">
+        <div class="panel-title">
+          <span>PHASE 8 DIGITAL TWIN OPTIMIZATION</span>
+          <span style="font-size:0.8rem; color:var(--accent-blue)">Pareto-Optimal</span>
+        </div>
+
+        <!-- Best Recommended -->
+        <div class="opt-box">
+          <div class="opt-title" id="recOptTitle">BEST RECOMMENDED OPERATING POINT</div>
+          <div id="recOptParams" style="font-size:0.85rem; font-weight:600; color:var(--text-main);">--</div>
+          <div class="opt-deltas" id="recOptDeltas"></div>
+          <div class="rationale-text" id="recOptRationale">--</div>
+        </div>
+
+        <!-- Alternative Options -->
+        <div style="margin-top: 12px;">
+          <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px;">ALTERNATIVE SAFE OPERATING SCENARIOS:</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+            <div style="background: var(--bg-card-alt); padding: 10px; border-radius: 6px;">
+              <div style="font-size: 0.8rem; color: var(--accent-green); font-weight: 700;">MAX SAFE PRODUCTION</div>
+              <div id="altProdState" style="font-size: 0.8rem; margin-top: 2px;">--</div>
+            </div>
+            <div style="background: var(--bg-card-alt); padding: 10px; border-radius: 6px;">
+              <div style="font-size: 0.8rem; color: var(--accent-blue); font-weight: 700;">MAX ENERGY EFFICIENCY</div>
+              <div id="altEffState" style="font-size: 0.8rem; margin-top: 2px;">--</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Actionable Guidance -->
+        <div style="margin-top: 14px;">
+          <div style="font-size: 0.85rem; font-weight: 700; color: var(--accent-orange);">OPERATIONAL ACTION:</div>
+          <div id="actionGuidance" style="font-size: 0.85rem; color: var(--text-main); margin-top: 2px;">--</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Disclaimer -->
+  <div class="disclaimer">
+    ADVISORY NOTICE: All assessments, risk ratings, predictions, and setpoint recommendations are generated from physics-informed Digital Twin simulation and convolutional neural networks for decision support. They do NOT constitute autonomous control. Validate all setpoint adjustments with asset engineers.
+  </div>
+
+  <script>
+    let dynaChart = null;
+    let sampleData = [];
+    let currentPayload = null;
+
+    window.onload = async function() {
+      initChart();
+      await fetchSamples();
+      if (sampleData.length > 0) {
+        loadSample(0);
+      }
+    };
+
+    function initChart() {
+      const ctx = document.getElementById('dynaChart').getContext('2d');
+      dynaChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+          datasets: [
+            { label: 'Upstroke (0→1)', data: [], borderColor: '#22c55e', backgroundColor: 'transparent', showLine: true, borderWidth: 2, pointRadius: 0 },
+            { label: 'Downstroke (1→0)', data: [], borderColor: '#ef4444', backgroundColor: 'transparent', showLine: true, borderWidth: 2, pointRadius: 0 }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            x: { title: { display: true, text: 'Normalized Position (0 to 1)', color: '#94a3b8' }, grid: { color: '#334155' }, min: 0, max: 1 },
+            y: { title: { display: true, text: 'Normalized Load [0, 1]', color: '#94a3b8' }, grid: { color: '#334155' }, min: -0.05, max: 1.05 }
+          },
+          plugins: { legend: { labels: { color: '#f8fafc', boxWidth: 12 } } }
+        }
+      });
+    }
+
+    async function fetchSamples() {
+      try {
+        const res = await fetch('/api/sample_wells');
+        const data = await res.json();
+        sampleData = data.samples || [];
+        const sel = document.getElementById('sampleSelect');
+        sel.innerHTML = '';
+        sampleData.forEach((s, idx) => {
+          const opt = document.createElement('option');
+          opt.value = idx;
+          opt.innerText = `${s.well_id} — ${s.label} (${s.spm} SPM, ${s.viscosity_cp} cP)`;
+          sel.appendChild(opt);
+        });
+      } catch (err) {
+        console.error('Failed to load sample wells', err);
+      }
+    }
+
+    function loadSelectedSample() {
+      const idx = document.getElementById('sampleSelect').value;
+      if (idx !== '') {
+        loadSample(parseInt(idx));
+      }
+    }
+
+    function loadSample(idx) {
+      const s = sampleData[idx];
+      currentPayload = {
+        well_id: s.well_id,
+        spm: s.spm,
+        temperature_f: s.temperature_f,
+        viscosity_cp: s.viscosity_cp,
+        fluid_level_ft: s.fluid_level_ft,
+        gas_fraction: s.gas_fraction,
+        stroke_length_in: s.stroke_length_in,
+        pump_depth_ft: s.pump_depth_ft,
+        card_points: s.card_points
+      };
+
+      updateChart(s.card_points);
+      runAnalysis();
+    }
+
+    function updateChart(points) {
+      if (!points || points.length !== 200) return;
+      const up = points.slice(0, 100).map(p => ({ x: p[0], y: p[1] }));
+      const down = points.slice(100).map(p => ({ x: p[0], y: p[1] }));
+      dynaChart.data.datasets[0].data = up;
+      dynaChart.data.datasets[1].data = down;
+      dynaChart.update();
+    }
+
+    async function runAnalysis() {
+      if (!currentPayload) return;
+      try {
+        const res = await fetch('/api/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(currentPayload)
+        });
+        const d = await res.json();
+        renderDashboard(d);
+      } catch (err) {
+        console.error('Analysis failed', err);
+      }
+    }
+
+    function renderDashboard(d) {
+      document.getElementById('dispWellId').innerText = d.well_id;
+      
+      const condClean = d.diagnosis.predicted_condition.replace(/\s+/g, '');
+      document.getElementById('dispCondition').innerHTML = `<span class="badge badge-${condClean}">${d.diagnosis.predicted_condition}</span>`;
+      document.getElementById('dispConfidence').innerText = (d.diagnosis.confidence * 100).toFixed(1) + '%';
+      document.getElementById('dispRisk').innerText = d.risk_assessment.overall_risk_score.toFixed(1) + ' / 100';
+      document.getElementById('dispSeverity').innerHTML = `<span class="badge badge-${d.risk_assessment.severity}">${d.risk_assessment.severity}</span>`;
+
+      // Probabilities
+      const p = d.diagnosis.probabilities;
+      setBar('pNorm', p['Normal']);
+      setBar('pRf', p['Rod Floating']);
+      setBar('pFp', p['Fluid Pound']);
+      setBar('pGi', p['Gas Interference']);
+
+      // Assessment
+      document.getElementById('riskExplanation').innerText = d.risk_assessment.engineering_explanation;
+      document.getElementById('contributingFactors').innerText = 'Contributing Factors: ' + (d.risk_assessment.contributing_factors.join('; ') || 'Nominal');
+
+      // KPIs
+      const cur = d.current_state;
+      document.getElementById('kpiSpm').innerText = currentPayload.spm.toFixed(1) + ' SPM';
+      document.getElementById('kpiTemp').innerText = currentPayload.temperature_f.toFixed(1) + ' °F';
+      document.getElementById('kpiVisc').innerText = currentPayload.viscosity_cp.toFixed(0) + ' cP';
+      document.getElementById('kpiFl').innerText = currentPayload.fluid_level_ft.toFixed(0) + ' ft';
+      document.getElementById('kpiProd').innerText = cur.net_production_bpd.toFixed(1) + ' bpd';
+      document.getElementById('kpiPower').innerText = cur.polished_rod_power_kw.toFixed(2) + ' kW';
+      document.getElementById('kpiSec').innerText = cur.specific_energy_kwh_per_bbl.toFixed(2) + ' kWh/bbl';
+      document.getElementById('kpiPprl').innerText = cur.pprl_lbf.toFixed(0) + ' lbf';
+      document.getElementById('kpiMprl').innerText = cur.mprl_lbf.toFixed(0) + ' lbf';
+
+      // Optimization
+      const opt = d.optimization;
+      const rec = opt.recommended_scenario;
+      document.getElementById('recOptTitle').innerText = `BEST RECOMMENDED OPERATING POINT (${rec.scenario_id})`;
+      document.getElementById('recOptParams').innerText = `Target Setpoints: ` + JSON.stringify(rec.modifications).replace(/["{}]/g, '').replace(/:/g, '=');
+      
+      const deltasHtml = `
+        <div class="delta-badge ${rec.delta_production_bpd >= 0 ? 'delta-pos' : 'delta-neg'}">Δ Prod: ${rec.delta_production_bpd >= 0 ? '+' : ''}${rec.delta_production_bpd.toFixed(1)} bpd</div>
+        <div class="delta-badge delta-good">Δ Power: ${rec.delta_power_kw >= 0 ? '+' : ''}${rec.delta_power_kw.toFixed(2)} kW</div>
+        <div class="delta-badge delta-good">Δ Risk: ${rec.delta_risk >= 0 ? '+' : ''}${rec.delta_risk.toFixed(1)} pts</div>
+        <div class="delta-badge">Target Risk: ${rec.risk_score.toFixed(1)} (${rec.severity})</div>
+      `;
+      document.getElementById('recOptDeltas').innerHTML = deltasHtml;
+      document.getElementById('recOptRationale').innerText = opt.selection_rationale;
+
+      // Alternatives
+      const maxP = opt.max_production_scenario;
+      document.getElementById('altProdState').innerText = `${JSON.stringify(maxP.modifications).replace(/["{}]/g, '')} -> Prod: ${maxP.net_production_bpd.toFixed(1)} bpd, Risk: ${maxP.risk_score.toFixed(1)}`;
+
+      const maxE = opt.max_efficiency_scenario;
+      document.getElementById('altEffState').innerText = `${JSON.stringify(maxE.modifications).replace(/["{}]/g, '')} -> SEC: ${maxE.specific_energy_kwh_per_bbl.toFixed(2)} kWh/bbl, Prod: ${maxE.net_production_bpd.toFixed(1)} bpd`;
+
+      document.getElementById('actionGuidance').innerText = d.actionable_recommendation;
+    }
+
+    function setBar(id, val) {
+      const pct = (val * 100).toFixed(1);
+      document.getElementById(id + 'Val').innerText = pct + '%';
+      document.getElementById(id + 'Bar').style.width = pct + '%';
+    }
+  </script>
+</body>
+</html>

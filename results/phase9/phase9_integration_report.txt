@@ -1,0 +1,61 @@
+================================================================================
+TEJAS Phase 9 — End-to-End Pipeline Integration Test Report
+================================================================================
+
+Pipeline: Dynacard Input -> CNN -> Risk -> Physics -> Optimizer -> API Response
+
+[ROD FLOATING CASE: WELL-019]
+--------------------------------------------------------------------------------
+  1. Diagnosis:       Rod Floating (Confidence: 100.0%)
+     Probabilities:   {'Normal': 0.0001, 'Rod Floating': 0.9999, 'Fluid Pound': 0.0, 'Gas Interference': 0.0}
+  2. Risk Assessment: 65.2/100 | Severity: High
+     Root Causes:     Elevated viscosity (1055.6 cP) increases rod downstroke fluid drag
+  3. Current State:   Prod: 181.3 bpd | Power: 5.07 kW | SEC: 0.67 kWh/bbl
+  4. Recommended Opt: [Thermal_+45F] {'temperature_f': 175.7}
+     Expected Delta:  Delta Prod: +45.9 bpd | Delta Power: -0.34 kW | Delta Risk: -26.3 pts
+     Target State:    Prod: 227.2 bpd | Power: 4.73 kW | Risk: 32.9 (Medium)
+  5. Selection Reason: Thermal CSS treatment (176°F) cuts viscosity by -756 cP (-71.6%), unlocking fluid mobility. Achieves +45.9 bpd net liquid (+25.3%), reduces polished rod power by -0.34 kW, and drives composite risk down from 59.2 (High) to 32.9 (Medium).
+  6. Operator Action: IMMEDIATE ACTION: Reduce VFD stroke speed from 6.6 SPM to 5.0 SPM to restore gravity downstroke tracking. Schedule CSS (Cyclic Steam Stimulation) / diluent injection to reduce crude viscosity. Inspect rod string for compressive buckling.
+--------------------------------------------------------------------------------
+
+[FLUID POUND CASE: WELL-005]
+--------------------------------------------------------------------------------
+  1. Diagnosis:       Fluid Pound (Confidence: 99.9%)
+     Probabilities:   {'Normal': 0.0001, 'Rod Floating': 0.0, 'Fluid Pound': 0.9993, 'Gas Interference': 0.0006}
+  2. Risk Assessment: 52.5/100 | Severity: Medium
+     Root Causes:     Low pump submergence ratio (49.3%)
+  3. Current State:   Prod: 210.4 bpd | Power: 3.44 kW | SEC: 0.39 kWh/bbl
+  4. Recommended Opt: [SPM_6.0] {'spm': 6.0}
+     Expected Delta:  Delta Prod: +131.7 bpd | Delta Power: +3.47 kW | Delta Risk: +0.0 pts
+     Target State:    Prod: 342.1 bpd | Power: 6.91 kW | Risk: 17.8 (Low)
+  5. Selection Reason: Adjusting pumping speed from 3.7 to 6.0 SPM rebalances rod kinematics and avoids downstroke impact. Achieves +131.7 bpd net liquid (+62.6%), reduces polished rod power by +3.47 kW, and drives composite risk down from 17.8 (Low) to 17.8 (Low).
+  6. Operator Action: ADVISORY: Adjust POC thresholds to trigger earlier pump shutdown on underfill. Verify bottomhole pressure and well inflow performance.
+--------------------------------------------------------------------------------
+
+[GAS INTERFERENCE CASE: WELL-007]
+--------------------------------------------------------------------------------
+  1. Diagnosis:       Gas Interference (Confidence: 82.5%)
+     Probabilities:   {'Normal': 0.1739, 'Rod Floating': 0.0, 'Fluid Pound': 0.0006, 'Gas Interference': 0.8255}
+  2. Risk Assessment: 30.6/100 | Severity: Medium
+     Root Causes:     Nominal
+  3. Current State:   Prod: 225.9 bpd | Power: 8.00 kW | SEC: 0.85 kWh/bbl
+  4. Recommended Opt: [GasSep_SPM_5.0] {'gas_fraction': 0.04, 'spm': 5.0}
+     Expected Delta:  Delta Prod: +89.2 bpd | Delta Power: -1.53 kW | Delta Risk: -48.5 pts
+     Target State:    Prod: 315.1 bpd | Power: 6.47 kW | Risk: 10.7 (Low)
+  5. Selection Reason: Adjusting pumping speed from 5.8 to 5.0 SPM rebalances rod kinematics and avoids downstroke impact; Gas separation retrofit recovers volumetric barrel fullness. Achieves +89.2 bpd net liquid (+39.5%), reduces polished rod power by -1.53 kW, and drives composite risk down from 59.2 (High) to 10.7 (Low).
+  6. Operator Action: ADVISORY: Monitor casinghead gas backpressure. Optimize stroke length vs SPM to maximize compression ratio in barrel.
+--------------------------------------------------------------------------------
+
+[NORMAL CASE: WELL-003]
+--------------------------------------------------------------------------------
+  1. Diagnosis:       Normal (Confidence: 99.0%)
+     Probabilities:   {'Normal': 0.9901, 'Rod Floating': 0.0088, 'Fluid Pound': 0.0, 'Gas Interference': 0.0011}
+  2. Risk Assessment: 4.0/100 | Severity: Low
+     Root Causes:     Operating within nominal mechanical baseline
+  3. Current State:   Prod: 196.0 bpd | Power: 3.85 kW | SEC: 0.47 kWh/bbl
+  4. Recommended Opt: [CoOpt_T+35F_SPM_6.0] {'temperature_f': 167.5, 'spm': 6.0}
+     Expected Delta:  Delta Prod: +81.8 bpd | Delta Power: +1.95 kW | Delta Risk: -2.5 pts
+     Target State:    Prod: 277.8 bpd | Power: 5.80 kW | Risk: 12.5 (Low)
+  5. Selection Reason: Thermal CSS treatment (168°F) cuts viscosity by -301 cP (-62.5%), unlocking fluid mobility; Adjusting pumping speed from 4.4 to 6.0 SPM rebalances rod kinematics and avoids downstroke impact. Achieves +81.8 bpd net liquid (+41.7%), reduces polished rod power by +1.95 kW, and drives composite risk down from 15.0 (Low) to 12.5 (Low).
+  6. Operator Action: Maintain baseline pumping parameters. Continue regular SCADA monitoring and scheduled lubrication.
+--------------------------------------------------------------------------------

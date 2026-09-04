@@ -1,0 +1,23 @@
+TEJAS Phase 5B — 1D CNN Evaluation Report
+============================================================
+Validation Accuracy:          0.9383
+Validation Balanced Accuracy: 0.9107
+Validation Macro F1:          0.9258
+
+                  precision    recall  f1-score   support
+
+          Normal     0.8529    1.0000    0.9206        29
+    Rod Floating     1.0000    1.0000    1.0000        19
+     Fluid Pound     1.0000    1.0000    1.0000        19
+Gas Interference     1.0000    0.6429    0.7826        14
+
+        accuracy                         0.9383        81
+       macro avg     0.9632    0.9107    0.9258        81
+    weighted avg     0.9473    0.9383    0.9340        81
+
+Confusion Matrix (rows=true, cols=pred):
+                  Normal  Rod Floating  Fluid Pound  Gas Interference
+Normal                29             0            0                 0
+Rod Floating           0            19            0                 0
+Fluid Pound            0             0           19                 0
+Gas Interference       5             0            0                 9

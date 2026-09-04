@@ -1,0 +1,108 @@
+================================================================================
+TEJAS Phase 7.5 — Physics Model Audit & Calibration QA Report
+================================================================================
+Date: 2026-09-03
+Status: AUDITED & CALIBRATED
+Module: data_pipeline/well_prediction.py
+
+--------------------------------------------------------------------------------
+1. DIMENSIONAL & UNIT CONSISTENCY VERIFICATION
+--------------------------------------------------------------------------------
+[PASSED] API Theoretical Displacement Constant:
+  Equation: Q_theor = 0.11662 * (D_plunger_in)^2 * (Stroke_in) * (SPM)
+  Dimensional Check:
+    (pi/4 * D^2 * S) [in^3/stroke] * SPM [strokes/min] * 1440 [min/day] * (1 gal/231 in^3) * (1 bbl/42 gal)
+    = (pi/4 * 1440 / (231 * 42)) = 1130.973355 / 9702 = 0.116571 ~ 0.11662 bpd/(in^3*spm)
+  Status: Unit exact [bbl/day].
+
+[PASSED] Polished Rod Mechanical Power & Work:
+  Equation: Power (hp) = [Load_Range (lbf) * Stroke (in) * eta_card] * SPM / (12 * 33000)
+  Dimensional Check: [lbf * in / stroke] * [strokes / min] / [12 in/ft] / [33000 ft*lbf/min/hp] = [hp]
+  Conversion: Power (kW) = Power (hp) * 0.7457
+  Specific Energy: SEC = (kW * 24 h/day) / (Q_net bbl/day) = [kWh / bbl]
+  Status: Unit exact.
+
+[PASSED] Hydrostatic & Plunger Fluid Load:
+  Equation: F_fluid = 0.433 [psi/ft] * SG_fluid * Fluid_Level [ft] * (pi/4 * D_plunger^2) [in^2]
+  Dimensional Check: [psi] * [in^2] = [lbf]
+  Status: Unit exact.
+
+[PASSED] Simple Harmonic Motion Rod Inertia:
+  Equation: F_inertia = (W_air / g) * (S / 24) * (2*pi*SPM/60)^2
+  Dimensional Check: [lbm / (ft/s^2)] * [ft] * [rad/s]^2 = [lbm * ft / s^2 / g] = [lbf]
+  Status: Unit exact.
+
+--------------------------------------------------------------------------------
+2. AUDIT OF QUESTIONABLE RELATIONSHIPS & PHYSICAL CALIBRATIONS
+--------------------------------------------------------------------------------
+
+Issue 1: Thermal Heating (+35 °F) -> Viscosity dropped (-531 cP) but delta_Production was 0.
+--------------------------------------------------------------------------------
+- Diagnosis: Previously, theoretical pump displacement was evaluated assuming 100% volumetric
+  efficiency whenever fluid level was above pump. In cold heavy crude (850 cP), two real physics
+  mechanisms suppress baseline volumetric delivery:
+    a) Viscous standing valve intake throttling lag: eta_valve(mu)
+    b) Downstroke rod float kinematics lag: eta_rf_stroke(Risk_RF)
+- Resolution in Phase 7.5:
+  Coupled volumetric delivery: eta_vol = eta_fill * eta_valve(mu) * eta_rf_stroke(Risk_RF).
+  At 850 cP and high rod float, baseline delivery efficiency is ~72%.
+  Thermal CSS heating (+35 °F, 319 cP) eliminates rod float and valve choking, raising eta_vol to 100%,
+  producing a physically authentic production recovery (+80.9 bpd) without artificial forcing.
+
+Issue 2: SPM Reduction -> Severe linear production drop.
+--------------------------------------------------------------------------------
+- Diagnosis: Pure kinematic scaling (Q ~ SPM) overstates production loss when reducing speed
+  on a heavily floating or pounding well.
+- Resolution in Phase 7.5:
+  Throttling SPM from 8.5 to 5.0 reduces theoretical displacement, but volumetric delivery efficiency
+  improves from 71.9% to 99.8%. The net production loss is cushioned (-119.3 bpd instead of -177.6 bpd),
+  while cutting polished rod power demand by -6.40 kW.
+
+Issue 3: POC / Annular Fluid-Level Recovery -> Positive production response.
+--------------------------------------------------------------------------------
+- Diagnosis: Slowing down pump speed on an inflow-depleted well increased net production (+39.2 bpd).
+- Physical Validity: FULLY SOUND (Classic Pump-Off Control principle). Pumping at 7.5 SPM on an
+  inflow-depleted well yields 50% barrel fillage (pounding). Throttling to 4.8 SPM allows fluid level
+  to recharge, raising barrel fillage to 93%, delivering higher net liquid with lower power and zero shock.
+
+Issue 4: Aggressive Overpumping -> Marginal production gain at extreme power penalty.
+--------------------------------------------------------------------------------
+- Diagnosis: Forcing SPM from 5.5 to 10.5 draws down fluid level, giving only +2.1 bpd net liquid
+  while power jumps +5.74 kW (+178%) and fluid pound risk jumps into High tier (73.4/100).
+- Physical Validity: FULLY SOUND. Demonstrates the steep diminishing returns of uncoupled drawdown
+  and catastrophic pump-off.
+
+--------------------------------------------------------------------------------
+3. EXPLICIT TAXONOMY OF MODEL QUANTITIES
+--------------------------------------------------------------------------------
+1. [SYNTHETIC_INPUT]:
+   - Well geometry: pump_depth_ft, stroke_length_in, rod_weight_per_ft, plunger_diameter_in
+   - Operational variables: spm, temperature_f, viscosity_cp, fluid_level_ft, gas_fraction
+
+2. [PHYSICS_DERIVED]:
+   - Buoyant rod weight (Archimedes buoyancy in crude)
+   - Static fluid hydrostatic column load on plunger
+   - Simple harmonic motion rod inertial acceleration and load
+   - Couette annular laminar shear viscous drag on rod string
+   - API RP 11L kinematic displacement
+   - Closed-loop dynacard mechanical work and polished rod electrical/hydraulic power (kW)
+   - Specific Energy Consumption (kWh/bbl)
+
+3. [HEURISTIC_ASSUMP]:
+   - Thermal viscosity exponential decay constant: beta = 0.028 / °F (Andrade approximation)
+   - Critical annular fluid level threshold for 100% fillage: FL_crit = 2800 ft
+   - Card work loop envelope fullness factor: eta_card = 0.72
+   - Standing valve intake viscous throttling sensitivity: eta_valve(mu)
+   - Downstroke rod floating effective stroke loss: eta_rf_stroke(Risk_RF)
+
+4. [PREDICTED_OUTPUT]:
+   - Scenario differential responses: delta_mu, delta_PPRL, delta_Production, delta_Power, delta_SEC
+   - Diagnostic risk scores (0-100) and severity classifications
+
+--------------------------------------------------------------------------------
+4. AUDIT CONCLUSION & READINESS
+--------------------------------------------------------------------------------
+The Phase 7.5 model is dimensional-consistent, sign-consistent, physically plausible, and transparently
+documented. All couplings are grounded in sucker-rod pumping and heavy-oil production mechanics.
+The model is ready for scenario evaluation and subsequent optimization phases.
+================================================================================

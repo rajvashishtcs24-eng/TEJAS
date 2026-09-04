@@ -1,0 +1,131 @@
+TEJAS Phase 8 — Multi-Objective Optimization Report
+================================================================================
+
+WELL ID: WELL-019
+================================================================================
+1. CURRENT OPERATING STATE:
+   SPM: 8.5 | Temp: 125.0°F | Visc: 850 cP | Prod: 346.2 bpd | Power: 11.55 kW | SEC: 0.80 kWh/bbl | Risk: 76.0/100 (High)
+   [WARNING] Baseline well is in High severity tier (76.0/100); immediate operating point shift advised.
+
+2. BEST RECOMMENDED OPERATING POINT (CoOpt_T+35F_SPM_5.5):
+   Target Parameters: {'temperature_f': 160.0, 'spm': 5.5}
+   Predicted State:   SPM: 5.5 | Temp: 160.0°F | Visc: 319 cP | Prod: 283.9 bpd | Power: 5.67 kW | SEC: 0.48 kWh/bbl | Risk: 11.0/100 (Low)
+   Expected Deltas:   Delta Prod: -62.3 bpd (-18.0%) | Delta Power: -5.88 kW | Delta SEC: -0.32 kWh/bbl | Delta Risk: -65.0 pts
+   Utility Score:     0.7329 (Pareto Optimal: True)
+
+3. ALTERNATIVE SAFE OPERATING OPTIONS:
+   A) Maximum Safe Production (Thermal_+45F):
+      Parameters: {'temperature_f': 170.0}
+      State:      Prod=430.3 bpd | Power=10.97 kW | Risk=37.8 (Medium)
+   B) Maximum Energy Efficiency (CoOpt_T+35F_SPM_5.0):
+      Parameters: {'temperature_f': 160.0, 'spm': 5.0}
+      State:      SEC=0.46 kWh/bbl | Power=4.98 kW | Prod=258.1 bpd
+
+4. SELECTION RATIONALE & ENGINEERING REASONING:
+   Thermal CSS treatment (160°F) cuts viscosity by -531 cP (-62.5%), unlocking fluid mobility; Adjusting pumping speed from 8.5 to 5.5 SPM rebalances rod kinematics and avoids downstroke impact. Achieves -62.3 bpd net liquid (-18.0%), reduces polished rod power by -5.88 kW, and drives composite risk down from 76.0 (High) to 11.0 (Low).
+
+5. PARETO FRONTIER CANDIDATES (6 Total):
+   * [Thermal_+45F] {'temperature_f': 170.0} -> Prod=430.3 bpd, Power=10.97 kW, Risk=37.8 (Medium)
+   * [CoOpt_T+35F_SPM_5.0] {'temperature_f': 160.0, 'spm': 5.0} -> Prod=258.1 bpd, Power=4.98 kW, Risk=11.0 (Low)
+   * [CoOpt_T+35F_SPM_5.5] {'temperature_f': 160.0, 'spm': 5.5} -> Prod=283.9 bpd, Power=5.67 kW, Risk=11.0 (Low)
+   * [CoOpt_T+35F_SPM_6.0] {'temperature_f': 160.0, 'spm': 6.0} -> Prod=309.7 bpd, Power=6.40 kW, Risk=14.6 (Low)
+   * [CoOpt_T+35F_SPM_6.5] {'temperature_f': 160.0, 'spm': 6.5} -> Prod=335.5 bpd, Power=7.20 kW, Risk=19.4 (Low)
+   * [CoOpt_T+35F_SPM_7.0] {'temperature_f': 160.0, 'spm': 7.0} -> Prod=361.3 bpd, Power=8.06 kW, Risk=24.2 (Low)
+
+================================================================================
+
+WELL ID: WELL-005
+================================================================================
+1. CURRENT OPERATING STATE:
+   SPM: 7.5 | Temp: 138.0°F | Visc: 420 cP | Prod: 186.8 bpd | Power: 5.73 kW | SEC: 0.74 kWh/bbl | Risk: 69.9/100 (High)
+   [WARNING] Baseline well is in High severity tier (69.9/100); immediate operating point shift advised.
+
+2. BEST RECOMMENDED OPERATING POINT (POC_SPM_5.0_FL_3000):
+   Target Parameters: {'spm': 5.0, 'fluid_level_ft': 3000.0}
+   Predicted State:   SPM: 5.0 | Temp: 138.0°F | Visc: 420 cP | Prod: 253.6 bpd | Power: 4.52 kW | SEC: 0.43 kWh/bbl | Risk: 12.5/100 (Low)
+   Expected Deltas:   Delta Prod: +66.8 bpd (+35.8%) | Delta Power: -1.21 kW | Delta SEC: -0.31 kWh/bbl | Delta Risk: -57.4 pts
+   Utility Score:     0.7316 (Pareto Optimal: True)
+
+3. ALTERNATIVE SAFE OPERATING OPTIONS:
+   A) Maximum Safe Production (POC_SPM_6.0_FL_3000):
+      Parameters: {'spm': 6.0, 'fluid_level_ft': 3000.0}
+      State:      Prod=304.3 bpd | Power=5.82 kW | Risk=21.5 (Low)
+   B) Maximum Energy Efficiency (POC_SPM_4.0_FL_2400):
+      Parameters: {'spm': 4.0, 'fluid_level_ft': 2400.0}
+      State:      SEC=0.40 kWh/bbl | Power=2.91 kW | Prod=173.9 bpd
+
+4. SELECTION RATIONALE & ENGINEERING REASONING:
+   Adjusting pumping speed from 7.5 to 5.0 SPM rebalances rod kinematics and avoids downstroke impact; Allowing annular fluid level recovery to 3000 ft eliminates pump-off fluid pound. Achieves +66.8 bpd net liquid (+35.8%), reduces polished rod power by -1.21 kW, and drives composite risk down from 69.9 (High) to 12.5 (Low).
+
+5. PARETO FRONTIER CANDIDATES (5 Total):
+   * [POC_SPM_4.0_FL_3000] {'spm': 4.0, 'fluid_level_ft': 3000.0} -> Prod=202.9 bpd, Power=3.40 kW, Risk=12.5 (Low)
+   * [POC_SPM_5.0_FL_3000] {'spm': 5.0, 'fluid_level_ft': 3000.0} -> Prod=253.6 bpd, Power=4.52 kW, Risk=12.5 (Low)
+   * [POC_SPM_6.0_FL_3000] {'spm': 6.0, 'fluid_level_ft': 3000.0} -> Prod=304.3 bpd, Power=5.82 kW, Risk=21.5 (Low)
+   * [POC_SPM_4.0_FL_3500] {'spm': 4.0, 'fluid_level_ft': 3500.0} -> Prod=202.9 bpd, Power=3.81 kW, Risk=10.7 (Low)
+   * [POC_SPM_5.0_FL_3500] {'spm': 5.0, 'fluid_level_ft': 3500.0} -> Prod=253.6 bpd, Power=5.03 kW, Risk=12.1 (Low)
+
+================================================================================
+
+WELL ID: WELL-007
+================================================================================
+1. CURRENT OPERATING STATE:
+   SPM: 6.0 | Temp: 135.0°F | Visc: 400 cP | Prod: 151.3 bpd | Power: 5.70 kW | SEC: 0.90 kWh/bbl | Risk: 100.0/100 (Critical)
+   [WARNING] Baseline well is in Critical severity tier (100.0/100); immediate operating point shift advised.
+
+2. BEST RECOMMENDED OPERATING POINT (GasSep_SPM_7.0):
+   Target Parameters: {'gas_fraction': 0.04, 'spm': 7.0}
+   Predicted State:   SPM: 7.0 | Temp: 135.0°F | Visc: 400 cP | Prod: 300.7 bpd | Power: 7.41 kW | SEC: 0.59 kWh/bbl | Risk: 42.7/100 (Medium)
+   Expected Deltas:   Delta Prod: +149.4 bpd (+98.7%) | Delta Power: +1.71 kW | Delta SEC: -0.31 kWh/bbl | Delta Risk: -57.3 pts
+   Utility Score:     0.8000 (Pareto Optimal: True)
+
+3. ALTERNATIVE SAFE OPERATING OPTIONS:
+   A) Maximum Safe Production (GasSep_SPM_7.0):
+      Parameters: {'gas_fraction': 0.04, 'spm': 7.0}
+      State:      Prod=300.7 bpd | Power=7.41 kW | Risk=42.7 (Medium)
+   B) Maximum Energy Efficiency (GasSep_SPM_5.0):
+      Parameters: {'gas_fraction': 0.04, 'spm': 5.0}
+      State:      SEC=0.48 kWh/bbl | Power=4.29 kW | Prod=215.5 bpd
+
+4. SELECTION RATIONALE & ENGINEERING REASONING:
+   Adjusting pumping speed from 6.0 to 7.0 SPM rebalances rod kinematics and avoids downstroke impact; Gas separation retrofit recovers volumetric barrel fullness. Achieves +149.4 bpd net liquid (+98.7%), reduces polished rod power by +1.71 kW, and drives composite risk down from 100.0 (Critical) to 42.7 (Medium).
+
+5. PARETO FRONTIER CANDIDATES (4 Total):
+   * [Gas_Separator_Retrofit] {'gas_fraction': 0.04} -> Prod=258.6 bpd, Power=5.70 kW, Risk=42.7 (Medium)
+   * [GasSep_SPM_5.0] {'gas_fraction': 0.04, 'spm': 5.0} -> Prod=215.5 bpd, Power=4.29 kW, Risk=42.7 (Medium)
+   * [GasSep_SPM_6.0] {'gas_fraction': 0.04, 'spm': 6.0} -> Prod=258.6 bpd, Power=5.70 kW, Risk=42.7 (Medium)
+   * [GasSep_SPM_7.0] {'gas_fraction': 0.04, 'spm': 7.0} -> Prod=300.7 bpd, Power=7.41 kW, Risk=42.7 (Medium)
+
+================================================================================
+
+WELL ID: WELL-003
+================================================================================
+1. CURRENT OPERATING STATE:
+   SPM: 5.5 | Temp: 145.0°F | Visc: 380 cP | Prod: 280.9 bpd | Power: 5.78 kW | SEC: 0.49 kWh/bbl | Risk: 14.0/100 (Low)
+
+2. BEST RECOMMENDED OPERATING POINT (Thermal_+15F):
+   Target Parameters: {'temperature_f': 160.0}
+   Predicted State:   SPM: 5.5 | Temp: 160.0°F | Visc: 250 cP | Prod: 284.8 bpd | Power: 5.73 kW | SEC: 0.48 kWh/bbl | Risk: 10.4/100 (Low)
+   Expected Deltas:   Delta Prod: +3.9 bpd (+1.4%) | Delta Power: -0.05 kW | Delta SEC: -0.01 kWh/bbl | Delta Risk: -3.6 pts
+   Utility Score:     0.7080 (Pareto Optimal: True)
+
+3. ALTERNATIVE SAFE OPERATING OPTIONS:
+   A) Maximum Safe Production (SPM_8.5):
+      Parameters: {'spm': 8.5}
+      State:      Prod=417.3 bpd | Power=10.97 kW | Risk=43.5 (Medium)
+   B) Maximum Energy Efficiency (SPM_3.5):
+      Parameters: {'spm': 3.5}
+      State:      SEC=0.44 kWh/bbl | Power=3.31 kW | Prod=178.7 bpd
+
+4. SELECTION RATIONALE & ENGINEERING REASONING:
+   Thermal CSS treatment (160°F) cuts viscosity by -130 cP (-34.3%), unlocking fluid mobility. Achieves +3.9 bpd net liquid (+1.4%), reduces polished rod power by -0.05 kW, and drives composite risk down from 14.0 (Low) to 10.4 (Low).
+
+5. PARETO FRONTIER CANDIDATES (12 Total):
+   * [SPM_3.5] {'spm': 3.5} -> Prod=178.7 bpd, Power=3.31 kW, Risk=10.4 (Low)
+   * [SPM_4.0] {'spm': 4.0} -> Prod=204.3 bpd, Power=3.87 kW, Risk=10.4 (Low)
+   * [SPM_4.5] {'spm': 4.5} -> Prod=229.8 bpd, Power=4.47 kW, Risk=10.4 (Low)
+   * [SPM_6.0] {'spm': 6.0} -> Prod=306.4 bpd, Power=6.51 kW, Risk=18.8 (Low)
+   * [SPM_6.5] {'spm': 6.5} -> Prod=331.9 bpd, Power=7.28 kW, Risk=23.6 (Low)
+   * [SPM_7.0] {'spm': 7.0} -> Prod=357.5 bpd, Power=8.11 kW, Risk=28.5 (Medium)
+
+================================================================================
+

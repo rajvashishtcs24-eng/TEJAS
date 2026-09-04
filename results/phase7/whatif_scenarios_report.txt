@@ -1,0 +1,189 @@
+TEJAS Phase 7 — Physics-Informed What-If Scenario Analysis Report
+================================================================================
+
+[S1_Thermal_CSS_Stimulation]
+Description: Cyclic Steam Stimulation (CSS) increases wellbore temp from 125°F to 160°F (+35°F), exponentially thinning heavy crude.
+  Operational Changes:
+    SPM:           8.5 -> 8.5 (+0.0)
+    Temperature:   125.0 °F -> 160.0 °F (+35.0 °F)
+    Viscosity:     850 cP -> 319 cP (-531 cP / -62.5%)
+    Fluid Mobility: 0.47 -> 1.25 (idx)
+  Mechanical & SRP Loading Response:
+    PPRL:          16013 lbf -> 15830 lbf (-183 lbf)
+    MPRL:          7664 lbf -> 7847 lbf (+183 lbf)
+    Load Range:    8349 lbf -> 7984 lbf (-366 lbf)
+  Production & Energy Implications:
+    Net Production: 346.2 bpd -> 427.1 bpd (+80.9 bpd / +23.4%)
+    Power Demand:  11.55 kW -> 11.04 kW (-0.51 kW)
+    Specific Energy:0.80 -> 0.62 kWh/bbl (-0.18 kWh/bbl)
+  Diagnostic Risk Shift:
+    Rod Floating:  76.0 -> 39.3 (-36.7)
+    Fluid Pound:   9.7 -> 9.7 (+0.0)
+    Gas Interf:    11.0 -> 11.0 (+0.0)
+    Overall Risk:  76.0 (High) -> 39.3 (Medium)
+  Key Insights:
+    * Viscosity shifted by -531 cP (-62.5%), changing mobility index from 0.47 to 1.25.
+    * Rod floating risk reduced by 36.7 pts (now 39.3/100).
+    * Net production increased by 80.9 bpd (+23.4%), moving volumetric efficiency from 72.8% to 89.8%.
+    * Polished rod power changed by -0.51 kW (Specific energy: 0.62 kWh/bbl).
+--------------------------------------------------------------------------------
+
+[S2_VFD_Speed_Throttling]
+Description: Reduce VFD speed from 8.5 SPM to 5.0 SPM to eliminate downstroke velocity mismatch and mitigate rod floating.
+  Operational Changes:
+    SPM:           8.5 -> 5.0 (-3.5)
+    Temperature:   125.0 °F -> 125.0 °F (+0.0 °F)
+    Viscosity:     850 cP -> 850 cP (+0 cP / +0.0%)
+    Fluid Mobility: 0.47 -> 0.47 (idx)
+  Mechanical & SRP Loading Response:
+    PPRL:          16013 lbf -> 15007 lbf (-1006 lbf)
+    MPRL:          7664 lbf -> 8670 lbf (+1006 lbf)
+    Load Range:    8349 lbf -> 6337 lbf (-2012 lbf)
+  Production & Energy Implications:
+    Net Production: 346.2 bpd -> 226.9 bpd (-119.3 bpd / -34.5%)
+    Power Demand:  11.55 kW -> 5.15 kW (-6.40 kW)
+    Specific Energy:0.80 -> 0.55 kWh/bbl (-0.25 kWh/bbl)
+  Diagnostic Risk Shift:
+    Rod Floating:  76.0 -> 41.4 (-34.6)
+    Fluid Pound:   9.7 -> 9.7 (+0.0)
+    Gas Interf:    11.0 -> 11.0 (+0.0)
+    Overall Risk:  76.0 (High) -> 41.4 (Medium)
+  Key Insights:
+    * Rod floating risk reduced by 34.6 pts (now 41.4/100).
+    * Net production decreased by 119.3 bpd (-34.5%), moving volumetric efficiency from 72.8% to 81.1%.
+    * Polished rod power changed by -6.40 kW (Specific energy: 0.55 kWh/bbl).
+--------------------------------------------------------------------------------
+
+[S3_Diluent_Viscosity_Treatment]
+Description: Downhole light hydrocarbon / solvent dosing reduces effective crude viscosity from 850 cP to 260 cP.
+  Operational Changes:
+    SPM:           8.5 -> 8.5 (+0.0)
+    Temperature:   125.0 °F -> 125.0 °F (+0.0 °F)
+    Viscosity:     850 cP -> 260 cP (-590 cP / -69.4%)
+    Fluid Mobility: 0.47 -> 1.54 (idx)
+  Mechanical & SRP Loading Response:
+    PPRL:          16013 lbf -> 15810 lbf (-203 lbf)
+    MPRL:          7664 lbf -> 7867 lbf (+203 lbf)
+    Load Range:    8349 lbf -> 7943 lbf (-406 lbf)
+  Production & Energy Implications:
+    Net Production: 346.2 bpd -> 430.3 bpd (+84.1 bpd / +24.3%)
+    Power Demand:  11.55 kW -> 10.98 kW (-0.57 kW)
+    Specific Energy:0.80 -> 0.61 kWh/bbl (-0.19 kWh/bbl)
+  Diagnostic Risk Shift:
+    Rod Floating:  76.0 -> 37.8 (-38.2)
+    Fluid Pound:   9.7 -> 9.7 (+0.0)
+    Gas Interf:    11.0 -> 11.0 (+0.0)
+    Overall Risk:  76.0 (High) -> 37.8 (Medium)
+  Key Insights:
+    * Viscosity shifted by -590 cP (-69.4%), changing mobility index from 0.47 to 1.54.
+    * Rod floating risk reduced by 38.2 pts (now 37.8/100).
+    * Net production increased by 84.1 bpd (+24.3%), moving volumetric efficiency from 72.8% to 90.4%.
+    * Polished rod power changed by -0.57 kW (Specific energy: 0.61 kWh/bbl).
+--------------------------------------------------------------------------------
+
+[S4_POC_Throttling_Fluid_Recovery]
+Description: Throttle SPM from 7.5 to 4.8 with Pump-Off Control duty cycling, allowing fluid level to recover from 1400 ft to 2600 ft.
+  Operational Changes:
+    SPM:           7.5 -> 4.8 (-2.7)
+    Temperature:   138.0 °F -> 138.0 °F (+0.0 °F)
+    Viscosity:     420 cP -> 420 cP (+0 cP / +0.0%)
+    Fluid Mobility: 0.95 -> 0.95 (idx)
+  Mechanical & SRP Loading Response:
+    PPRL:          11994 lbf -> 12891 lbf (+897 lbf)
+    MPRL:          7302 lbf -> 7906 lbf (+605 lbf)
+    Load Range:    4692 lbf -> 4984 lbf (+293 lbf)
+  Production & Energy Implications:
+    Net Production: 186.8 bpd -> 226.0 bpd (+39.2 bpd / +21.0%)
+    Power Demand:  5.73 kW -> 3.89 kW (-1.84 kW)
+    Specific Energy:0.74 -> 0.41 kWh/bbl (-0.33 kWh/bbl)
+  Diagnostic Risk Shift:
+    Rod Floating:  36.2 -> 11.8 (-24.4)
+    Fluid Pound:   69.9 -> 18.3 (-51.6)
+    Gas Interf:    26.8 -> 14.4 (-12.4)
+    Overall Risk:  69.9 (High) -> 18.3 (Low)
+  Key Insights:
+    * Rod floating risk reduced by 24.4 pts (now 11.8/100).
+    * Fluid pound risk reduced by 51.6 pts (now 18.3/100).
+    * Net production increased by 39.2 bpd (+21.0%), moving volumetric efficiency from 44.5% to 84.1%.
+    * Polished rod power changed by -1.84 kW (Specific energy: 0.41 kWh/bbl).
+--------------------------------------------------------------------------------
+
+[S5_Downhole_Gas_Separation]
+Description: Downhole gas separator reduces barrel free gas fraction from 30% to 4%, restoring volumetric pump fullness.
+  Operational Changes:
+    SPM:           6.0 -> 6.0 (+0.0)
+    Temperature:   135.0 °F -> 135.0 °F (+0.0 °F)
+    Viscosity:     400 cP -> 400 cP (+0 cP / +0.0%)
+    Fluid Mobility: 1.00 -> 1.00 (idx)
+  Mechanical & SRP Loading Response:
+    PPRL:          12907 lbf -> 12907 lbf (+0 lbf)
+    MPRL:          7902 lbf -> 7902 lbf (+0 lbf)
+    Load Range:    5005 lbf -> 5005 lbf (+0 lbf)
+  Production & Energy Implications:
+    Net Production: 151.3 bpd -> 258.6 bpd (+107.3 bpd / +70.9%)
+    Power Demand:  5.70 kW -> 5.70 kW (+0.00 kW)
+    Specific Energy:0.90 -> 0.53 kWh/bbl (-0.37 kWh/bbl)
+  Diagnostic Risk Shift:
+    Rod Floating:  21.1 -> 21.1 (+0.0)
+    Fluid Pound:   78.9 -> 42.7 (-36.2)
+    Gas Interf:    100.0 -> 15.0 (-85.0)
+    Overall Risk:  100.0 (Critical) -> 42.7 (Medium)
+  Key Insights:
+    * Fluid pound risk reduced by 36.2 pts (now 42.7/100).
+    * Net production increased by 107.3 bpd (+70.9%), moving volumetric efficiency from 38.6% to 66.0%.
+--------------------------------------------------------------------------------
+
+[S6_Aggressive_Overpumping_Drawdown]
+Description: Attempting to force production by increasing SPM to 10.5 draws down fluid level, triggering fluid pound and extreme power demand.
+  Operational Changes:
+    SPM:           5.5 -> 10.5 (+5.0)
+    Temperature:   145.0 °F -> 145.0 °F (+0.0 °F)
+    Viscosity:     380 cP -> 380 cP (+0 cP / +0.0%)
+    Fluid Mobility: 1.05 -> 1.05 (idx)
+  Mechanical & SRP Loading Response:
+    PPRL:          14064 lbf -> 12955 lbf (-1108 lbf)
+    MPRL:          7604 lbf -> 6209 lbf (-1394 lbf)
+    Load Range:    6460 lbf -> 6746 lbf (+286 lbf)
+  Production & Energy Implications:
+    Net Production: 280.9 bpd -> 283.0 bpd (+2.1 bpd / +0.7%)
+    Power Demand:  5.78 kW -> 11.52 kW (+5.74 kW)
+    Specific Energy:0.49 -> 0.98 kWh/bbl (+0.49 kWh/bbl)
+  Diagnostic Risk Shift:
+    Rod Floating:  14.0 -> 56.7 (+42.7)
+    Fluid Pound:   9.7 -> 61.3 (+51.6)
+    Gas Interf:    10.4 -> 23.4 (+13.0)
+    Overall Risk:  14.0 (Low) -> 61.3 (High)
+  Key Insights:
+    * Rod floating risk increased by 42.7 pts (now 56.7/100).
+    * Fluid pound risk increased by 51.6 pts (now 61.3/100).
+    * Net production increased by 2.1 bpd (+0.7%), moving volumetric efficiency from 91.2% to 48.1%.
+    * Polished rod power changed by +5.74 kW (Specific energy: 0.98 kWh/bbl).
+--------------------------------------------------------------------------------
+
+[S7_Thermal_Plus_VFD_CoOptimization]
+Description: Combined strategy: CSS heating (+30°F) coupled with VFD tuning (6.0 SPM) for maximum energy efficiency and zero fault risk.
+  Operational Changes:
+    SPM:           8.5 -> 6.0 (-2.5)
+    Temperature:   125.0 °F -> 155.0 °F (+30.0 °F)
+    Viscosity:     850 cP -> 367 cP (-483 cP / -56.8%)
+    Fluid Mobility: 0.47 -> 1.09 (idx)
+  Mechanical & SRP Loading Response:
+    PPRL:          16013 lbf -> 15130 lbf (-883 lbf)
+    MPRL:          7664 lbf -> 8547 lbf (+883 lbf)
+    Load Range:    8349 lbf -> 6583 lbf (-1766 lbf)
+  Production & Energy Implications:
+    Net Production: 346.2 bpd -> 307.1 bpd (-39.1 bpd / -11.3%)
+    Power Demand:  11.55 kW -> 6.43 kW (-5.12 kW)
+    Specific Energy:0.80 -> 0.50 kWh/bbl (-0.30 kWh/bbl)
+  Diagnostic Risk Shift:
+    Rod Floating:  76.0 -> 17.9 (-58.1)
+    Fluid Pound:   9.7 -> 9.7 (+0.0)
+    Gas Interf:    11.0 -> 11.0 (+0.0)
+    Overall Risk:  76.0 (High) -> 17.9 (Low)
+  Key Insights:
+    * Viscosity shifted by -483 cP (-56.8%), changing mobility index from 0.47 to 1.09.
+    * Rod floating risk reduced by 58.1 pts (now 17.9/100).
+    * Net production decreased by 39.1 bpd (-11.3%), moving volumetric efficiency from 72.8% to 91.4%.
+    * Polished rod power changed by -5.12 kW (Specific energy: 0.50 kWh/bbl).
+--------------------------------------------------------------------------------
+

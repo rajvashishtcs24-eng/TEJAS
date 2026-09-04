@@ -1,0 +1,354 @@
+{
+  "Rod Floating": {
+    "well_id": "WELL-019",
+    "diagnosis": {
+      "predicted_condition": "Rod Floating",
+      "confidence": 0.9999,
+      "probabilities": {
+        "Normal": 0.0001,
+        "Rod Floating": 0.9999,
+        "Fluid Pound": 0.0,
+        "Gas Interference": 0.0
+      }
+    },
+    "risk_assessment": {
+      "rod_floating_risk": 65.2,
+      "fluid_pound_risk": 0.0,
+      "gas_interference_risk": 0.0,
+      "overall_risk_score": 65.2,
+      "severity": "High",
+      "engineering_explanation": "Severe downstroke rod deceleration diagnosed. Downstroke velocity lag caused by heavy crude drag (1056 cP) and pumping speed (6.6 SPM) creates compressive rod stress and sharp impact on plunger re-engagement. Root factors: Elevated viscosity (1055.6 cP) increases rod downstroke fluid drag.",
+      "contributing_factors": [
+        "Elevated viscosity (1055.6 cP) increases rod downstroke fluid drag"
+      ]
+    },
+    "current_state": {
+      "net_production_bpd": 181.3,
+      "theoretical_displacement_bpd": 304.3,
+      "volumetric_efficiency_pct": 59.6,
+      "polished_rod_power_kw": 5.07,
+      "specific_energy_kwh_per_bbl": 0.67,
+      "pprl_lbf": 15566.4,
+      "mprl_lbf": 9831.7,
+      "load_range_lbf": 5734.7
+    },
+    "optimization": {
+      "recommended_scenario": {
+        "scenario_id": "Thermal_+45F",
+        "scenario_type": "Thermal_CSS_Stimulation",
+        "modifications": {
+          "temperature_f": 175.7
+        },
+        "net_production_bpd": 227.2,
+        "polished_rod_power_kw": 4.73,
+        "specific_energy_kwh_per_bbl": 0.5,
+        "risk_score": 32.9,
+        "severity": "Medium",
+        "delta_production_bpd": 45.9,
+        "delta_power_kw": -0.34,
+        "delta_risk": -26.3
+      },
+      "max_production_scenario": {
+        "scenario_id": "CoOpt_T+35F_SPM_7.0",
+        "scenario_type": "Thermal_VFD_CoOptimization",
+        "modifications": {
+          "temperature_f": 165.7,
+          "spm": 7.0
+        },
+        "net_production_bpd": 236.7,
+        "polished_rod_power_kw": 5.25,
+        "specific_energy_kwh_per_bbl": 0.53,
+        "risk_score": 32.9,
+        "severity": "Medium",
+        "delta_production_bpd": 55.4,
+        "delta_power_kw": 0.18,
+        "delta_risk": -26.3
+      },
+      "max_efficiency_scenario": {
+        "scenario_id": "CoOpt_T+35F_SPM_5.0",
+        "scenario_type": "Thermal_VFD_CoOptimization",
+        "modifications": {
+          "temperature_f": 165.7,
+          "spm": 5.0
+        },
+        "net_production_bpd": 169.1,
+        "polished_rod_power_kw": 3.13,
+        "specific_energy_kwh_per_bbl": 0.44,
+        "risk_score": 32.9,
+        "severity": "Medium",
+        "delta_production_bpd": -12.2,
+        "delta_power_kw": -1.94,
+        "delta_risk": -26.3
+      },
+      "utility_score": 0.8885,
+      "selection_rationale": "Thermal CSS treatment (176\u00b0F) cuts viscosity by -756 cP (-71.6%), unlocking fluid mobility. Achieves +45.9 bpd net liquid (+25.3%), reduces polished rod power by -0.34 kW, and drives composite risk down from 59.2 (High) to 32.9 (Medium).",
+      "operational_warnings": [
+        "Baseline well is in High severity tier (59.2/100); immediate operating point shift advised."
+      ]
+    },
+    "actionable_recommendation": "IMMEDIATE ACTION: Reduce VFD stroke speed from 6.6 SPM to 5.0 SPM to restore gravity downstroke tracking. Schedule CSS (Cyclic Steam Stimulation) / diluent injection to reduce crude viscosity. Inspect rod string for compressive buckling.",
+    "disclaimer": "ADVISORY NOTICE: All assessments, predictions, and recommendations are decision support outputs generated from physics models and neural network pattern recognition. They do NOT constitute autonomous control. Review operational changes with engineering personnel."
+  },
+  "Fluid Pound": {
+    "well_id": "WELL-005",
+    "diagnosis": {
+      "predicted_condition": "Fluid Pound",
+      "confidence": 0.9993,
+      "probabilities": {
+        "Normal": 0.0001,
+        "Rod Floating": 0.0,
+        "Fluid Pound": 0.9993,
+        "Gas Interference": 0.0006
+      }
+    },
+    "risk_assessment": {
+      "rod_floating_risk": 0.0,
+      "fluid_pound_risk": 52.5,
+      "gas_interference_risk": 0.0,
+      "overall_risk_score": 52.5,
+      "severity": "Medium",
+      "engineering_explanation": "Incomplete pump barrel fillage diagnosed due to reservoir inflow deficit (2613 ft fluid level). Plunger free-falls through vapor pocket before abruptly impacting fluid surface on downstroke, transmitting shock waves to polished rod and gearbox. Root factors: Low pump submergence ratio (49.3%).",
+      "contributing_factors": [
+        "Low pump submergence ratio (49.3%)"
+      ]
+    },
+    "current_state": {
+      "net_production_bpd": 210.4,
+      "theoretical_displacement_bpd": 244.9,
+      "volumetric_efficiency_pct": 85.9,
+      "polished_rod_power_kw": 3.44,
+      "specific_energy_kwh_per_bbl": 0.39,
+      "pprl_lbf": 14358.6,
+      "mprl_lbf": 9521.8,
+      "load_range_lbf": 4836.8
+    },
+    "optimization": {
+      "recommended_scenario": {
+        "scenario_id": "SPM_6.0",
+        "scenario_type": "VFD_Speed_Adjustment",
+        "modifications": {
+          "spm": 6.0
+        },
+        "net_production_bpd": 342.1,
+        "polished_rod_power_kw": 6.91,
+        "specific_energy_kwh_per_bbl": 0.48,
+        "risk_score": 17.8,
+        "severity": "Low",
+        "delta_production_bpd": 131.7,
+        "delta_power_kw": 3.47,
+        "delta_risk": 0.0
+      },
+      "max_production_scenario": {
+        "scenario_id": "SPM_9.0",
+        "scenario_type": "VFD_Speed_Adjustment",
+        "modifications": {
+          "spm": 9.0
+        },
+        "net_production_bpd": 487.7,
+        "polished_rod_power_kw": 14.23,
+        "specific_energy_kwh_per_bbl": 0.7,
+        "risk_score": 47.4,
+        "severity": "Medium",
+        "delta_production_bpd": 277.3,
+        "delta_power_kw": 10.79,
+        "delta_risk": 29.6
+      },
+      "max_efficiency_scenario": {
+        "scenario_id": "Thermal_+45F",
+        "scenario_type": "Thermal_CSS_Stimulation",
+        "modifications": {
+          "temperature_f": 185.0
+        },
+        "net_production_bpd": 211.5,
+        "polished_rod_power_kw": 3.38,
+        "specific_energy_kwh_per_bbl": 0.38,
+        "risk_score": 17.8,
+        "severity": "Low",
+        "delta_production_bpd": 1.1,
+        "delta_power_kw": -0.06,
+        "delta_risk": 0.0
+      },
+      "utility_score": 0.7101,
+      "selection_rationale": "Adjusting pumping speed from 3.7 to 6.0 SPM rebalances rod kinematics and avoids downstroke impact. Achieves +131.7 bpd net liquid (+62.6%), reduces polished rod power by +3.47 kW, and drives composite risk down from 17.8 (Low) to 17.8 (Low).",
+      "operational_warnings": []
+    },
+    "actionable_recommendation": "ADVISORY: Adjust POC thresholds to trigger earlier pump shutdown on underfill. Verify bottomhole pressure and well inflow performance.",
+    "disclaimer": "ADVISORY NOTICE: All assessments, predictions, and recommendations are decision support outputs generated from physics models and neural network pattern recognition. They do NOT constitute autonomous control. Review operational changes with engineering personnel."
+  },
+  "Gas Interference": {
+    "well_id": "WELL-007",
+    "diagnosis": {
+      "predicted_condition": "Gas Interference",
+      "confidence": 0.8255,
+      "probabilities": {
+        "Normal": 0.1739,
+        "Rod Floating": 0.0,
+        "Fluid Pound": 0.0006,
+        "Gas Interference": 0.8255
+      }
+    },
+    "risk_assessment": {
+      "rod_floating_risk": 0.0,
+      "fluid_pound_risk": 0.0,
+      "gas_interference_risk": 30.6,
+      "overall_risk_score": 30.6,
+      "severity": "Medium",
+      "engineering_explanation": "Compressible free gas inside the pump barrel is delaying traveling valve opening on downstroke. Volumetric lifting capacity is degraded due to cyclic gas compression. Root factors: Operating parameters within nominal thresholds.",
+      "contributing_factors": []
+    },
+    "current_state": {
+      "net_production_bpd": 225.9,
+      "theoretical_displacement_bpd": 395.4,
+      "volumetric_efficiency_pct": 57.1,
+      "polished_rod_power_kw": 8.0,
+      "specific_energy_kwh_per_bbl": 0.85,
+      "pprl_lbf": 15224.5,
+      "mprl_lbf": 8261.3,
+      "load_range_lbf": 6963.1
+    },
+    "optimization": {
+      "recommended_scenario": {
+        "scenario_id": "GasSep_SPM_5.0",
+        "scenario_type": "Gas_Separation_Plus_Speed",
+        "modifications": {
+          "gas_fraction": 0.04,
+          "spm": 5.0
+        },
+        "net_production_bpd": 315.1,
+        "polished_rod_power_kw": 6.47,
+        "specific_energy_kwh_per_bbl": 0.49,
+        "risk_score": 10.7,
+        "severity": "Low",
+        "delta_production_bpd": 89.2,
+        "delta_power_kw": -1.53,
+        "delta_risk": -48.5
+      },
+      "max_production_scenario": {
+        "scenario_id": "GasSep_SPM_7.0",
+        "scenario_type": "Gas_Separation_Plus_Speed",
+        "modifications": {
+          "gas_fraction": 0.04,
+          "spm": 7.0
+        },
+        "net_production_bpd": 440.4,
+        "polished_rod_power_kw": 10.65,
+        "specific_energy_kwh_per_bbl": 0.58,
+        "risk_score": 30.6,
+        "severity": "Medium",
+        "delta_production_bpd": 214.5,
+        "delta_power_kw": 2.65,
+        "delta_risk": -28.6
+      },
+      "max_efficiency_scenario": {
+        "scenario_id": "GasSep_SPM_5.0",
+        "scenario_type": "Gas_Separation_Plus_Speed",
+        "modifications": {
+          "gas_fraction": 0.04,
+          "spm": 5.0
+        },
+        "net_production_bpd": 315.1,
+        "polished_rod_power_kw": 6.47,
+        "specific_energy_kwh_per_bbl": 0.49,
+        "risk_score": 10.7,
+        "severity": "Low",
+        "delta_production_bpd": 89.2,
+        "delta_power_kw": -1.53,
+        "delta_risk": -48.5
+      },
+      "utility_score": 0.55,
+      "selection_rationale": "Adjusting pumping speed from 5.8 to 5.0 SPM rebalances rod kinematics and avoids downstroke impact; Gas separation retrofit recovers volumetric barrel fullness. Achieves +89.2 bpd net liquid (+39.5%), reduces polished rod power by -1.53 kW, and drives composite risk down from 59.2 (High) to 10.7 (Low).",
+      "operational_warnings": [
+        "Baseline well is in High severity tier (59.2/100); immediate operating point shift advised."
+      ]
+    },
+    "actionable_recommendation": "ADVISORY: Monitor casinghead gas backpressure. Optimize stroke length vs SPM to maximize compression ratio in barrel.",
+    "disclaimer": "ADVISORY NOTICE: All assessments, predictions, and recommendations are decision support outputs generated from physics models and neural network pattern recognition. They do NOT constitute autonomous control. Review operational changes with engineering personnel."
+  },
+  "Normal": {
+    "well_id": "WELL-003",
+    "diagnosis": {
+      "predicted_condition": "Normal",
+      "confidence": 0.9901,
+      "probabilities": {
+        "Normal": 0.9901,
+        "Rod Floating": 0.0088,
+        "Fluid Pound": 0.0,
+        "Gas Interference": 0.0011
+      }
+    },
+    "risk_assessment": {
+      "rod_floating_risk": 0.4,
+      "fluid_pound_risk": 0.0,
+      "gas_interference_risk": 0.0,
+      "overall_risk_score": 4.0,
+      "severity": "Low",
+      "engineering_explanation": "Sucker-rod card exhibits uniform load profile and normal full-stroke work envelope. Operating within nominal mechanical baseline.",
+      "contributing_factors": [
+        "Operating within nominal mechanical baseline"
+      ]
+    },
+    "current_state": {
+      "net_production_bpd": 196.0,
+      "theoretical_displacement_bpd": 218.7,
+      "volumetric_efficiency_pct": 89.6,
+      "polished_rod_power_kw": 3.85,
+      "specific_energy_kwh_per_bbl": 0.47,
+      "pprl_lbf": 16673.6,
+      "mprl_lbf": 10613.6,
+      "load_range_lbf": 6060.0
+    },
+    "optimization": {
+      "recommended_scenario": {
+        "scenario_id": "CoOpt_T+35F_SPM_6.0",
+        "scenario_type": "Thermal_VFD_CoOptimization",
+        "modifications": {
+          "temperature_f": 167.5,
+          "spm": 6.0
+        },
+        "net_production_bpd": 277.8,
+        "polished_rod_power_kw": 5.8,
+        "specific_energy_kwh_per_bbl": 0.5,
+        "risk_score": 12.5,
+        "severity": "Low",
+        "delta_production_bpd": 81.8,
+        "delta_power_kw": 1.95,
+        "delta_risk": -2.5
+      },
+      "max_production_scenario": {
+        "scenario_id": "SPM_8.0",
+        "scenario_type": "VFD_Speed_Adjustment",
+        "modifications": {
+          "spm": 8.0
+        },
+        "net_production_bpd": 344.1,
+        "polished_rod_power_kw": 9.3,
+        "specific_energy_kwh_per_bbl": 0.65,
+        "risk_score": 44.4,
+        "severity": "Medium",
+        "delta_production_bpd": 148.1,
+        "delta_power_kw": 5.45,
+        "delta_risk": 29.4
+      },
+      "max_efficiency_scenario": {
+        "scenario_id": "SPM_3.5",
+        "scenario_type": "VFD_Speed_Adjustment",
+        "modifications": {
+          "spm": 3.5
+        },
+        "net_production_bpd": 157.0,
+        "polished_rod_power_kw": 2.93,
+        "specific_energy_kwh_per_bbl": 0.45,
+        "risk_score": 14.1,
+        "severity": "Low",
+        "delta_production_bpd": -39.0,
+        "delta_power_kw": -0.92,
+        "delta_risk": -0.9
+      },
+      "utility_score": 0.7738,
+      "selection_rationale": "Thermal CSS treatment (168\u00b0F) cuts viscosity by -301 cP (-62.5%), unlocking fluid mobility; Adjusting pumping speed from 4.4 to 6.0 SPM rebalances rod kinematics and avoids downstroke impact. Achieves +81.8 bpd net liquid (+41.7%), reduces polished rod power by +1.95 kW, and drives composite risk down from 15.0 (Low) to 12.5 (Low).",
+      "operational_warnings": []
+    },
+    "actionable_recommendation": "Maintain baseline pumping parameters. Continue regular SCADA monitoring and scheduled lubrication.",
+    "disclaimer": "ADVISORY NOTICE: All assessments, predictions, and recommendations are decision support outputs generated from physics models and neural network pattern recognition. They do NOT constitute autonomous control. Review operational changes with engineering personnel."
+  }
+}

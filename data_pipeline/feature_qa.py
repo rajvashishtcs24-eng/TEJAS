@@ -1,5 +1,8 @@
 import sys
-sys.path.insert(0, "/home/claude/tejas/data_pipeline")
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import numpy as np
 import pandas as pd
@@ -7,7 +10,7 @@ from scipy import stats
 
 from feature_extraction import FEATURE_COLS
 
-df = pd.read_csv("/home/claude/tejas/data/features/dynacard_features.csv")
+df = pd.read_csv(PROJECT_ROOT / "data" / "features" / "dynacard_features.csv")
 
 report_lines = []
 
@@ -93,7 +96,7 @@ for a, b, r in strong_pairs:
     log(f"  {a}  <->  {b}   r={r}")
 if not strong_pairs:
     log("  none above threshold")
-corr.to_csv("/home/claude/tejas/data/features/feature_correlation_matrix.csv")
+corr.to_csv(PROJECT_ROOT / "data" / "features" / "feature_correlation_matrix.csv")
 
 # --- basic statistics by condition ---
 log("\n" + "-" * 70)
@@ -123,7 +126,7 @@ anova_df = pd.DataFrame(anova_results, columns=["feature", "F_statistic", "p_val
     "F_statistic", ascending=False
 )
 log(anova_df.to_string(index=False))
-anova_df.to_csv("/home/claude/tejas/data/features/feature_separability_anova.csv", index=False)
+anova_df.to_csv(PROJECT_ROOT / "data" / "features" / "feature_separability_anova.csv", index=False)
 
 log(f"\nTop 8 most separating features by F-statistic:")
 for _, r in anova_df.head(8).iterrows():
@@ -133,7 +136,7 @@ n_significant = (anova_df["p_value"] < 0.01).sum()
 log(f"\n{n_significant} / {len(FEATURE_COLS)} features show statistically significant "
     f"(p<0.01) differences across conditions.")
 
-with open("/home/claude/tejas/data/features/PHASE4_QA_REPORT.txt", "w") as f:
+with open(PROJECT_ROOT / "data" / "features" / "PHASE4_QA_REPORT.txt", "w") as f:
     f.write("\n".join(report_lines))
 
 print("\nSaved: feature_correlation_matrix.csv, feature_separability_anova.csv, PHASE4_QA_REPORT.txt")
